@@ -6,6 +6,26 @@
     = csrf_meta_tags
 
   %body
+    %div.navbar.navbar-inverse.navbar-fixed-top
+      %div.navbar-inner
+        .container
+          %div.navbar-header
+
+            .navbar-toogle{'data-target' => '.navbar-collapse', 'data-toggle' => 'collapse'}
+              %span.icon-bar
+              %span.icon-bar
+
+            = link_to 'Kopacze', root_url, :class => 'navbar-brand'
+
+          %div.collapse.navbar-collapse.navbar-right
+            %ul.nav.navbar-nav
+              - if user_signed_in?
+                %li= link_to 'Moje konto', edit_user_registration_path
+                %li= link_to 'Wyloguj się', destroy_user_session_path , :method => :delete, method: :get
+              - else
+                %li= link_to 'Zaloguj się', new_user_session_path
+                %li= link_to 'Zarejestruj się', new_user_registration_path
+
     .container
       - if notice
         %p.alert.alert-success= notice
