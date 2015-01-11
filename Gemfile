@@ -31,6 +31,7 @@ gem 'devise'
 gem 'less-rails-bootstrap'
 
 gem 'haml-rails'
+gem 'erb2haml'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
