@@ -1,0 +1,27 @@
+= form_for @user do |f|
+  - if @user.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@user.errors.count, "error")} prohibited this user from being saved:"
+      %ul
+        - @user.errors.full_messages.each do |msg|
+          %li= msg
+
+  .form-group
+    = f.label 'Imię'
+    .controls
+      = f.text_field :name, class: 'form-control', required: true
+  .form-group
+    = f.label 'Nazwisko'
+    .controls
+      = f.text_field :surname, class: 'form-control', required: true
+  .form-group
+    = f.label 'Email'
+    .controls
+      = f.email_field :email, class: 'form-control', required: true
+  .form-group
+    = f.label 'Administrator'
+    .controls
+      = f.check_box :is_admin
+  .actions
+    = f.submit 'Zapisz', :class => 'btn btn-primary'
+    = link_to 'Wstecz', :back, :class => 'btn btn-default'

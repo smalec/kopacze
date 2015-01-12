@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users, :path_prefix => 'admin'
+
+  resources :users
+
   get 'home/index'
 
   root 'home#index'
