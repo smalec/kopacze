@@ -26,7 +26,7 @@
                 - if current_user.is_admin
                   %li= link_to 'Panel administracyjny', users_path
                 %li= link_to 'Moje konto', edit_user_registration_path
-                %li= link_to 'Wyloguj się', destroy_user_session_path , :method => :delete, method: :get
+                %li= link_to 'Wyloguj się', destroy_user_session_path , :method => :delete
               - else
                 %li= link_to 'Zaloguj się', new_user_session_path
                 %li= link_to 'Zarejestruj się', new_user_registration_path
