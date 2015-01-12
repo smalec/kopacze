@@ -7,6 +7,7 @@
       %th= 'Imię'
       %th= 'Nazwisko'
       %th= 'Email'
+      %th= 'Pozycja'
       %th= 'Administrator'
       %th
 
@@ -16,6 +17,7 @@
         %td= user.name
         %td= user.surname
         %td= user.email
+        %td= @position_name[user.position]
         %td= user.is_admin
         %td
           = link_to 'Pokaż', user, :class => 'btn btn-default btn-xs'

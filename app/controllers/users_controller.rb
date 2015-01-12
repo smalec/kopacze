@@ -1,7 +1,8 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :set_position_name
   before_action :authenticate_user!
-  before_filter :valid_is_admin
+  before_filter :valid_is_admin, except: [:show]
 
   # GET /users
   # GET /users.json
@@ -55,9 +56,16 @@ class UsersController < ApplicationController
       @user = User.find(params[:id])
     end
 
+    def set_position_name
+      @position_name = {'gk'  => 'Bramkarz',
+                        'def' => 'Obrońca',
+                        'mid' => 'Pomocnik',
+                        'for' => 'Napastnik'}
+    end
+
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:name, :surname, :email, :is_admin)
+      params.require(:user).permit(:name, :surname, :position, :email, :is_admin)
     end
 
     def valid_is_admin

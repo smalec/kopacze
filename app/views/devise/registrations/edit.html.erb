@@ -16,6 +16,11 @@
   </div>
 
   <div class="form-group">
+    <%= f.label 'Preferowana pozycja' %><br />
+    <%= f.select :position, {'Bramkarz' => 'gk', 'Obrońca' => 'def', 'Pomocnik' => 'mid', 'Napastnik' => 'for'} %>
+  </div>
+
+  <div class="form-group">
     <%= f.label 'Email' %><br />
     <%= f.email_field :email, autofocus: true %>
   </div>

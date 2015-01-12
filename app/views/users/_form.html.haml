@@ -19,6 +19,10 @@
     .controls
       = f.email_field :email, class: 'form-control', required: true
   .form-group
+    = f.label 'Preferowana pozycja'
+    .controls
+      = f.select :position, {'Bramkarz' => 'gk', 'Obrońca' => 'def', 'Pomocnik' => 'mid', 'Napastnik' => 'for'}
+  .form-group
     = f.label 'Administrator'
     .controls
       = f.check_box :is_admin
