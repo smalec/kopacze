@@ -18,7 +18,9 @@
         %td= user.surname
         %td= user.email
         %td= @position_name[user.position]
-        %td= user.is_admin
+        %td
+          = form_for user, :remote => true do |f|
+            = f.check_box :is_admin, :class => 'submittable'
         %td
           = link_to 'Pokaż', user, :class => 'btn btn-default btn-xs'
           = link_to 'Edytuj', edit_user_path(user), :class => 'btn btn-default btn-xs'
