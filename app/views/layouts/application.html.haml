@@ -12,10 +12,8 @@
           %div.navbar-header
 
             .navbar-toogle{'data-target' => '.navbar-collapse', 'data-toggle' => 'collapse'}
-              - if user_signed_in?
-                - if current_user.is_admin
-                  %span.icon-bar
-              %span.icon-bar
+              - if user_signed_in? and current_user.is_admin == false
+                %span.icon-bar
               %span.icon-bar
 
             = link_to 'Kopacze', root_url, :class => 'navbar-brand'
@@ -25,8 +23,13 @@
               - if user_signed_in?
                 - if current_user.is_admin
                   %li= link_to 'Panel administracyjny', users_path
-                %li= link_to 'Moje konto', edit_user_registration_path
-                %li= link_to 'Wyloguj się', destroy_user_session_path , :method => :delete
+                %li.dropdown
+                  = link_to '#', {class: 'dropdown-toggle', 'data-toggle' => 'dropdown'} do
+                    = current_user.full_name
+                    %span.caret
+                  %ul.dropdown-menu
+                    %li= link_to 'Moje konto', edit_user_registration_path
+                    %li= link_to 'Wyloguj się', destroy_user_session_path , :method => :delete
               - else
                 %li= link_to 'Zaloguj się', new_user_session_path
                 %li= link_to 'Zarejestruj się', new_user_registration_path
