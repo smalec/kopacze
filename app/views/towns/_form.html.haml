@@ -1,0 +1,15 @@
+= form_for @town do |f|
+  - if @town.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@town.errors.count, "error")} prohibited this town from being saved:"
+      %ul
+        - @town.errors.full_messages.each do |msg|
+          %li= msg
+
+  .form-group
+    = f.label 'Nazwa'
+    .controls
+      = f.text_field :name, class: 'form-control', required: true
+  .actions
+    = f.submit 'Zapisz', :class => 'btn btn-primary', :style => 'color: white;'
+    = link_to 'Wstecz', :back, :class => 'btn btn-default'

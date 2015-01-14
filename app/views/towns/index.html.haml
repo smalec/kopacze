@@ -1,0 +1,19 @@
+= render 'shared/admin_panel'
+
+%table.table.table-striped
+  %thead
+    %tr
+      %th= 'Nazwa'
+      %th
+
+  %tbody
+    - @towns.each do |town|
+      %tr
+        %td= town.name
+        %td
+          = link_to 'Pokaż', town, :class => 'btn btn-default btn-xs'
+          = link_to 'Edytuj', edit_town_path(town), :class => 'btn btn-default btn-xs'
+          = link_to 'Usuń', town, :method => :delete, :data => { :confirm => 'Jesteś pewny?' },
+                                                    :class => 'btn btn-danger btn-xs', :style => 'color: white;'
+
+= link_to 'Nowe miasto', new_town_path, :class => 'btn btn-primary', :style => 'color: white;'
