@@ -19,6 +19,10 @@
     .controls
       = f.email_field :email, class: 'form-control', required: true
   .form-group
+    = f.label 'Miasto'
+    .controls
+      = f.collection_select :town_id, @towns, :id, :name
+  .form-group
     = f.label 'Preferowana pozycja'
     .controls
       = f.select :position, {'Bramkarz' => 'gk', 'Obrońca' => 'def', 'Pomocnik' => 'mid', 'Napastnik' => 'for'}

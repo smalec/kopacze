@@ -17,6 +17,7 @@ class UsersController < ApplicationController
 
   # GET /users/1/edit
   def edit
+    @towns = Town.all
   end
 
   # PATCH/PUT /users/1
@@ -65,7 +66,7 @@ class UsersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:name, :surname, :position, :email, :is_admin)
+      params.require(:user).permit(:name, :surname, :position, :email, :town_id, :is_admin)
     end
 
     def valid_is_admin

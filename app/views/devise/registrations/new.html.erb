@@ -16,13 +16,18 @@
   </div>
 
   <div class="form-group">
-    <%= f.label 'Preferowana pozycja' %><br />
-    <%= f.select :position, {'Bramkarz' => 'gk', 'Obrońca' => 'def', 'Pomocnik' => 'mid', 'Napastnik' => 'for'} %>
+    <%= f.label 'Email' %><br />
+    <%= f.email_field :email %>
   </div>
 
   <div class="form-group">
-    <%= f.label 'Email' %><br />
-    <%= f.email_field :email %>
+    <%= f.label 'Miasto' %><br />
+    <%= f.collection_select :town_id, Town.all, :id, :name %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label 'Preferowana pozycja' %><br />
+    <%= f.select :position, {'Bramkarz' => 'gk', 'Obrońca' => 'def', 'Pomocnik' => 'mid', 'Napastnik' => 'for'} %>
   </div>
 
   <div class="form-group">
