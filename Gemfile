@@ -29,6 +29,7 @@ gem 'spring',        group: :development
 
 gem 'devise'
 
+gem 'bootstrap-select-rails'
 gem 'less-rails-bootstrap'
 
 gem 'haml-rails'

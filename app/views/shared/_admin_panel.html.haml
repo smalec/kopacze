@@ -1,16 +1,11 @@
-%div.navbar.navbar-default
-  %div.navbar-header
-    .navbar-toogle{'data-target' => '.navbar-collapse', 'data-toggle' => 'collapse'}
-      %span.icon-bar
-      %span.icon-bar
+%ul.nav.nav-tabs
+  - if current_page?(users_path)
+    %li.active= link_to 'Użytkownicy', users_path
+  - else
+    %li= link_to 'Użytkownicy', users_path
+  - if current_page?(towns_path)
+    %li.active= link_to 'Miasta', towns_path
+  - else
+    %li= link_to 'Miasta', towns_path
 
-  %div.collapse.navbar-collapse
-    %ul.nav.navbar-nav
-      - if current_page?(users_path)
-        %li.active= link_to 'Użytkownicy', users_path
-      - else
-        %li= link_to 'Użytkownicy', users_path
-      - if current_page?(towns_path)
-        %li.active= link_to 'Miasta', towns_path
-      - else
-        %li= link_to 'Miasta', towns_path
+%br

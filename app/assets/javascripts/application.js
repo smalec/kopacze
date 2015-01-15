@@ -15,4 +15,9 @@
 //= require turbolinks
 //= require jquery.turbolinks
 //= require twitter/bootstrap
+//= require bootstrap-select
 //= require_tree .
+
+$(document).ready(function() {
+    $('.selectpicker').selectpicker();
+});

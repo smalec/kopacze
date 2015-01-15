@@ -21,15 +21,16 @@
   .form-group
     = f.label 'Miasto'
     .controls
-      = f.collection_select :town_id, @towns, :id, :name
+      = f.collection_select :town_id, @towns, :id, :name, {}, {class: 'selectpicker'}
   .form-group
     = f.label 'Preferowana pozycja'
     .controls
-      = f.select :position, {'Bramkarz' => 'gk', 'Obrońca' => 'def', 'Pomocnik' => 'mid', 'Napastnik' => 'for'}
+      = f.select :position, {'Bramkarz' => 'gk', 'Obrońca' => 'def', 'Pomocnik' => 'mid', 'Napastnik' => 'for'}, {},
+                                                                                                {class: 'selectpicker'}
   .form-group
     = f.label 'Administrator'
     .controls
       = f.check_box :is_admin
   .actions
     = f.submit 'Zapisz', :class => 'btn btn-primary'
-    = link_to 'Wstecz', :back, :class => 'btn btn-default'
+    = link_to 'Powrót do użytkowników', users_path, :class => 'btn btn-default'

@@ -12,5 +12,6 @@
  *
  *= require_tree .
  *= require_self
+ *= require bootstrap-select
  *= require custom_bootstrap/custom_bootstrap
  */

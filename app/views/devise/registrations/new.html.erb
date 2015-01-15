@@ -7,40 +7,55 @@
 
   <div class="form-group">
     <%= f.label 'Imię' %><br />
-    <%= f.text_field :name, autofocus: true %>
+    <div class="controls">
+      <%= f.text_field :name, class: 'form-control', autofocus: true %>
+    </div>
   </div>
 
   <div class="form-group">
     <%= f.label 'Nazwisko' %><br />
-    <%= f.text_field :surname %>
+    <div class="controls">
+      <%= f.text_field :surname, class: 'form-control' %>
+    </div>
   </div>
 
   <div class="form-group">
     <%= f.label 'Email' %><br />
-    <%= f.email_field :email %>
+    <div class="controls">
+      <%= f.email_field :email, class: 'form-control' %>
+    </div>
   </div>
 
   <div class="form-group">
     <%= f.label 'Miasto' %><br />
-    <%= f.collection_select :town_id, Town.all, :id, :name %>
+    <div class="controls">
+      <%= f.collection_select :town_id, Town.all, :id, :name, {}, {class: 'selectpicker'} %>
+    </div>
   </div>
 
   <div class="form-group">
     <%= f.label 'Preferowana pozycja' %><br />
-    <%= f.select :position, {'Bramkarz' => 'gk', 'Obrońca' => 'def', 'Pomocnik' => 'mid', 'Napastnik' => 'for'} %>
+    <div class="controls">
+      <%= f.select :position, {'Bramkarz' => 'gk', 'Obrońca' => 'def', 'Pomocnik' => 'mid', 'Napastnik' => 'for'}, {},
+                                                                                              {class: 'selectpicker'} %>
+    </div>
   </div>
 
   <div class="form-group">
     <%= f.label 'Hasło' %>
-    <% if @validatable %>
-    <em>(Przynajmniej <%= @minimum_password_length %> znaków)</em>
-    <% end %><br />
-    <%= f.password_field :password, autocomplete: 'off' %>
+    <div class="controls">
+      <% if @validatable %>
+      <em>(Przynajmniej <%= @minimum_password_length %> znaków)</em>
+      <% end %><br />
+      <%= f.password_field :password, class: 'form-control', autocomplete: 'off' %>
+    </div>
   </div>
 
   <div class="form-group">
     <%= f.label 'Powtórz hasło' %><br />
-    <%= f.password_field :password_confirmation, autocomplete: 'off' %>
+    <div class="controls">
+      <%= f.password_field :password_confirmation, class: 'form-control', autocomplete: 'off' %>
+    </div>
   </div>
 
   <div class="actions">
