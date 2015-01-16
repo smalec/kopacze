@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :leagues
+
   resources :towns
 
   devise_for :users, :path_prefix => 'admin'

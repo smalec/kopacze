@@ -5,6 +5,7 @@
     %tr
       %th= 'Nazwa'
       %th= 'Graczy'
+      %th= 'Lig'
       %th
 
   %tbody
@@ -12,6 +13,7 @@
       %tr
         %td= town.name
         %td= town.users.count
+        %td= town.leagues.count
         %td
           = link_to 'Pokaż', town, :class => 'btn btn-default btn-xs'
           = link_to 'Edytuj', edit_town_path(town), :class => 'btn btn-default btn-xs'

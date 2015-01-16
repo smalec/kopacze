@@ -6,6 +6,9 @@
 %p
   %b= 'Zarejestrowanych graczy: '
   = @town.users.count
+%p
+  %b= 'Zarejestrowanych lig: '
+  = @town.leagues.count
 
 - if current_user.is_admin
   = link_to 'Edytuj', edit_town_path(@town), :class => 'btn btn-default'

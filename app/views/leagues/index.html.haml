@@ -1,0 +1,20 @@
+= render 'shared/admin_panel'
+
+%table.table.table-striped
+  %thead
+    %tr
+      %th= 'Miasto'
+      %th= 'Poziom'
+      %th
+
+  - @leagues.each do |league|
+    %tr
+      %td= league.town.name
+      %td= league.description
+      %td
+        = link_to 'Pokaż', league, :class => 'btn btn-default btn-xs'
+        = link_to 'Edytuj', edit_league_path(league), :class => 'btn btn-default btn-xs'
+        = link_to 'Usuń', league, :method => :delete, :data => { :confirm => 'Jesteś pewny?' },
+                                                    :class => 'btn btn-danger btn-xs', :style => 'color: white;'
+
+= link_to 'Nowa liga', new_league_path, :class => 'btn btn-primary', :style => 'color: white;'
