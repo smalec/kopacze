@@ -11,15 +11,7 @@
     = f.label 'Miasto'
     .controls
       = f.collection_select :town_id, @towns, :id, :name, {}, {class: 'selectpicker'}
-  .form-group
-    = f.label :division
-    .controls
-      = f.number_field :division
-  .form-group
-    = f.label :group
-    .controls
-      = f.number_field :group
 
   .actions
-    = f.submit 'Zapisz', :class => 'btn btn-primary', :style => 'color: white;'
+    = f.submit 'Utwórz', :class => 'btn btn-primary', :style => 'color: white;'
     = link_to 'Powrót do lig', leagues_path, :class => 'btn btn-default'
