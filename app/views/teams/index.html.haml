@@ -1,0 +1,25 @@
+= render 'shared/admin_panel'
+
+%table.table.table-striped
+  %thead
+    %tr
+      %th= 'Nazwa'
+      %th= 'Liga'
+      %th= 'Kapitan'
+      %th= 'Zawodników'
+      %th
+
+  %tbody
+    - @teams.each do |team|
+      %tr
+        %td= team.name
+        %td= team.league.description_with_town
+        %td= team.captain.full_name
+        %td= team.players.count
+        %td
+          = link_to 'Pokaż', team, :class => 'btn btn-default btn-xs'
+          = link_to 'Edytuj', edit_team_path(team), :class => 'btn btn-default btn-xs'
+          = link_to 'Usuń', team, :method => :delete, :data => { :confirm => 'Jesteś pewny?' },
+                                                    :class => 'btn btn-danger btn-xs', :style => 'color: white;'
+
+= link_to 'Nowa drużyna', new_team_path, :class => 'btn btn-primary', :style => 'color: white;'

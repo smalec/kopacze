@@ -1,0 +1,39 @@
+.page-header
+  %h1
+    .label.label-default= @team.league.description_with_town
+    = @team.name
+
+%p
+  %b= 'Kapitan: '
+  = link_to @team.captain.full_name, user_path(@team.captain)
+
+.panel.panel-default
+  .panel-heading
+    .panel-title= 'Zawodnicy'
+  .panel-body
+    %table.table.table-striped
+      %thead
+        %tr
+          %th= 'Gracz'
+          %th= 'Pozycja'
+          %th= 'Email'
+          - if current_user.is_admin or current_user == @team.captain
+            %th
+
+      %tbody
+        - for player in @team.players
+          %tr
+            %td= link_to player.full_name, user_path(player)
+            %td= @position_name[player.position]
+            %td= player.email
+            - if current_user.is_admin or current_user == @team.captain
+              - if player == @team.captain
+                %td= link_to 'Usuń z drużyny', {}, :class => 'btn btn-danger btn-xs disabled', :style => 'color: white;'
+              - else
+                %td= link_to 'Usuń z drużyny', {:controller => 'teams', :action => 'delete_from_team',
+                                                            :player_id => player.id, :team => @team},
+                                                            :class => 'btn btn-danger btn-xs', :style => 'color: white;'
+
+- if current_user.is_admin
+  = link_to 'Edytuj', edit_team_path(@team), :class => 'btn btn-default'
+= link_to 'Wstecz', :back, :class => 'btn btn-default'

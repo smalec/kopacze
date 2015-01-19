@@ -23,5 +23,8 @@
         %td
           = link_to 'Pokaż', user, :class => 'btn btn-default btn-xs'
           = link_to 'Edytuj', edit_user_path(user), :class => 'btn btn-default btn-xs'
-          = link_to 'Usuń konto', user, :method => :delete, :data => { :confirm => 'Jesteś pewny?' },
+          - if current_user == user
+            = link_to 'Usuń konto', user, :class => 'btn btn-danger btn-xs disabled', :style => 'color: white;'
+          - else
+            = link_to 'Usuń konto', user, :method => :delete, :data => { :confirm => 'Jesteś pewny?' },
                                                     :class => 'btn btn-danger btn-xs', :style => 'color: white;'

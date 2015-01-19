@@ -5,12 +5,14 @@
     %tr
       %th= 'Miasto'
       %th= 'Poziom'
+      %th= 'Drużyn'
       %th
 
   - @leagues.each do |league|
     %tr
       %td= league.town.name
       %td= league.description
+      %td= league.teams.count
       %td
         = link_to 'Pokaż', league, :class => 'btn btn-default btn-xs'
         = link_to 'Edytuj', edit_league_path(league), :class => 'btn btn-default btn-xs'

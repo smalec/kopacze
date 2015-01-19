@@ -11,5 +11,9 @@
     %li.active= link_to 'Ligi', leagues_path
   - else
     %li= link_to 'Ligi', leagues_path
+  - if current_page?(teams_path)
+    %li.active= link_to 'Zespoły', teams_path
+  - else
+    %li= link_to 'Zespoły', teams_path
 
 %br

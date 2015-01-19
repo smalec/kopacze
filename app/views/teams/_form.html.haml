@@ -1,0 +1,28 @@
+= form_for @team do |f|
+  - if @team.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@team.errors.count, "error")} prohibited this team from being saved:"
+      %ul
+        - @team.errors.full_messages.each do |msg|
+          %li= msg
+
+  .form-group
+    = f.label 'Nazwa'
+    .controls
+      = f.text_field :name, class: 'form-control', required: true
+  .form-group
+    = f.label 'Liga'
+    .controls
+      = f.collection_select :league_id, @leagues, :id, :description_with_town, {}, {class: 'selectpicker'}
+  .form-group
+    = f.label 'Kapitan'
+    .controls
+      = f.collection_select :captain_id, @captains, :id, :full_name, {}, {class: 'selectpicker'}
+  .form-group
+    = f.label 'Zawodnicy'
+    .controls
+      = f.collection_select(:players, @players, :id, :full_name, {},
+                            {class: 'selectpicker', multiple: true, size: 10, title: 'Wybierz zawodników'})
+  .actions
+    = f.submit 'Zapisz', :class => 'btn btn-primary', :style => 'color: white;'
+    = link_to 'Powrót do drużyn', teams_path, :class => 'btn btn-default'

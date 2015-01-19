@@ -1,5 +1,7 @@
 class LeaguesController < ApplicationController
   before_action :set_league, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!
+  before_filter :valid_is_admin, except: [:show]
 
   respond_to :html
 
@@ -73,5 +75,11 @@ class LeaguesController < ApplicationController
 
     def league_params
       params.require(:league).permit(:division, :group, :town_id)
+    end
+
+    def valid_is_admin
+      if current_user.is_admin == false
+        redirect_to root_path, alert: 'Nie posiadasz uprawnień administratora'
+      end
     end
 end

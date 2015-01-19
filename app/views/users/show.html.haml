@@ -9,6 +9,15 @@
 %p
   %b= 'Miasto: '
   = link_to @user.town.name, town_path(@user.town)
+%p
+  %b= 'Drużyna: '
+  - if @user.team == nil
+    = 'Nie przynależy'
+  - else
+    = link_to @user.team.name, team_path(@user.team)
+    = ' ('
+    = link_to @user.team.league.description, league_path(@user.team.league)
+    = ')'
 
 - if current_user.is_admin
   = link_to 'Edytuj', edit_user_path(@user), :class => 'btn btn-default'

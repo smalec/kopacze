@@ -8,6 +8,9 @@ class User < ActiveRecord::Base
 
   belongs_to :town
 
+  has_one :own_team, class_name: 'Team', foreign_key: 'captain_id'
+  belongs_to :team, class_name: 'Team'
+
   validates :name, presence: true
   validates :surname, presence: true
   validates :email, presence: true

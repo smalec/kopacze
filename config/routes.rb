@@ -1,4 +1,10 @@
 Rails.application.routes.draw do
+  resources :teams do
+    member do
+      get 'delete_from_team'
+    end
+  end
+
   resources :leagues
 
   resources :towns
