@@ -34,10 +34,15 @@
                     %ul.dropdown-menu
                       %li= link_to 'Profil drużyny', team_path(current_user.team)
                       - if current_user.team.league != nil
-                        %li= link_to 'Liga (' + current_user.team.league.description + ')', league_path(current_user.team.league)
+                        %li= link_to 'Liga (' + current_user.team.league.description + ')',
+                                                      league_path(current_user.team.league)
+                      %li.divider
                       - if current_user != current_user.team.captain
-                        %li.divider
                         %li= link_to 'Opuść drużynę', {:controller => 'teams', :action => 'delete_from_team',
+                                :id => current_user.team.id, :player_id => current_user.id, :team => current_user.team},
+                                :method => :delete, :data => { :confirm => 'Jesteś pewny?' }
+                      - else
+                        %li= link_to 'Rozwiąż drużynę', {:controller => 'teams', :action => 'destroy',
                                 :id => current_user.team.id, :player_id => current_user.id, :team => current_user.team},
                                 :method => :delete, :data => { :confirm => 'Jesteś pewny?' }
 

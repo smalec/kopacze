@@ -1,7 +1,7 @@
 class TeamsController < ApplicationController
   before_action :set_team, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!
-  before_filter :valid_is_admin, except: [:show, :delete_from_team, :create]
+  before_filter :valid_is_admin, except: [:show, :delete_from_team, :create, :destroy]
   before_action :set_position_name
 
   respond_to :html
@@ -35,6 +35,11 @@ class TeamsController < ApplicationController
     @team.players << @team.captain
     @team.town = @team.captain.town
     @team.save
+    if params[:team][:players] != nil
+      for player_id in params[:team][:players][1..-1]
+        User.update(player_id, :team_id => @team.id)
+      end
+    end
     respond_with(@team)
   end
 
@@ -56,7 +61,11 @@ class TeamsController < ApplicationController
 
   def destroy
     @team.destroy
-    respond_with(@team)
+    if current_user.is_admin
+      respond_with(@team)
+    else
+      redirect_to root_path, notice: 'Pomyślnie rozwiązano drużynę'
+    end
   end
 
   private
