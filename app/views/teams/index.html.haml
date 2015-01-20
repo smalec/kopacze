@@ -13,7 +13,10 @@
     - @teams.each do |team|
       %tr
         %td= team.name
-        %td= team.league.description_with_town
+        - if team.league != nil
+          %td= team.league.description_with_town
+        - else
+          %td= team.town.name + ': Nie przynależy'
         %td= team.captain.full_name
         %td= team.players.count
         %td

@@ -1,7 +1,7 @@
 class TeamsController < ApplicationController
   before_action :set_team, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!
-  before_filter :valid_is_admin, except: [:show, :delete_from_team]
+  before_filter :valid_is_admin, except: [:show, :delete_from_team, :create]
   before_action :set_position_name
 
   respond_to :html
@@ -24,7 +24,7 @@ class TeamsController < ApplicationController
 
   def edit
     @leagues = League.all
-    @players = User.where(:team_id => nil, :town => @team.league.town)
+    @players = User.where(:team_id => nil, :town => @team.town)
     @captains = @players + @team.players
   end
 
@@ -33,6 +33,7 @@ class TeamsController < ApplicationController
     @players = @captains = User.where(:team_id => nil)
     @team = Team.new(team_params)
     @team.players << @team.captain
+    @team.town = @team.captain.town
     @team.save
     respond_with(@team)
   end
@@ -44,7 +45,7 @@ class TeamsController < ApplicationController
 
   def update
     @leagues = League.all
-    @players = User.where(:team_id => nil, :town => @team.league.town)
+    @players = User.where(:team_id => nil, :town => @team.town)
     @captains = @players + @team.players
     @team.update(team_params)
     for player_id in params[:team][:players][1..-1]
@@ -71,7 +72,7 @@ class TeamsController < ApplicationController
     end
 
     def team_params
-      params.require(:team).permit(:name, :league_id, :captain_id)
+      params.require(:team).permit(:name, :league_id, :captain_id, :town_id)
     end
 
     def valid_is_admin

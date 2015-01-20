@@ -1,3 +1,22 @@
+- if user_signed_in? and current_user.team == nil
+  %div.jumbotron
+    .row
+      .col-md-8
+        %h1= 'Załóż własną drużynę!'
+        %p=  'Podaj nazwę drużyny i zacznij swoją zabawę w serwisie Kopacze.'
+      .col-md-4
+        %br
+        = form_for @team do |f|
+          .form-group-lg
+            .controls
+              = f.text_field :name, class: 'form-control', style: 'width: 293px;',
+                                    required: true, placeholder: 'Nazwa drużyny'
+              = f.hidden_field :captain_id, :value => current_user.id
+          %br
+          .actions
+            = f.submit 'Utwórz', :class => 'btn btn-success btn-lg', :style => 'color: white;'
+            = link_to 'Dołącz do istniejącej', '#', :class => 'btn btn-info btn-lg', :style => 'color: white;'
+
 .row
   .col-md-3
     <br /><br />
