@@ -32,6 +32,7 @@
               - else
                 %td= link_to 'Usuń z drużyny', {:controller => 'teams', :action => 'delete_from_team',
                                                             :player_id => player.id, :team => @team},
+                                                            :method => :delete, :data => { :confirm => 'Jesteś pewny?' },
                                                             :class => 'btn btn-danger btn-xs', :style => 'color: white;'
 
 - if current_user.is_admin

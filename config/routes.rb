@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   resources :teams do
     member do
-      get 'delete_from_team'
+      delete 'delete_from_team'
     end
   end
 
