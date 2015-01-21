@@ -35,11 +35,14 @@ class TeamsController < ApplicationController
     @team.players << @team.captain
     @team.town = @team.captain.town
     @team.save
+
     if params[:team][:players] != nil
       for player_id in params[:team][:players][1..-1]
         User.update(player_id, :team_id => @team.id)
       end
     end
+
+    assign_league
     respond_with(@team)
   end
 
@@ -74,6 +77,54 @@ class TeamsController < ApplicationController
                         'def' => 'Obrońca',
                         'mid' => 'Pomocnik',
                         'for' => 'Napastnik'}
+    end
+
+    def assign_league
+      if @team.league == nil
+        town = @team.town
+        lowest_div = town.leagues.sort_by{:division}[-1]
+        if lowest_div == nil
+          teams_in_town = Team.where(:town => @team.town, :league_id => nil)
+          if teams_in_town.count > 5
+            create_league(-1, 0, teams_in_town)
+          end
+        else
+          lowest_div = lowest_div[:division]
+          lowest_group = town.leagues.select{|league| league.division == lowest_div}.count
+          lowest_league = League.where(:town => @team.town, :division => lowest_div, :group => lowest_group)
+          if lowest_league.count < 12
+            @team.league = lowest_league[0]
+            @team.save
+          else
+            teams_in_town = Team.where(:town => @team.town, :league_id => nil)
+            if teams_in_town.count > 5
+              create_league(lowest_div, lowest_group, teams_in_town)
+            end
+          end
+        end
+      end
+    end
+
+    def create_league(lowest_div, lowest_group, teams_in_town)
+      league = League.new
+      league.town = @team.town
+      if lowest_div == -1
+        league.division = 0
+        league.group = 1
+      elsif lowest_div == 0
+        league.division = 1
+        league.group = 1
+      else
+        if lowest_group == 2**(lowest_div - 1)
+          league.division = lowest_div + 1
+          league.group = 1
+        else
+          league.division = lowest_div
+          league.group = lowest_group + 1
+        end
+      end
+      league.teams << teams_in_town
+      league.save
     end
 
     def set_team
