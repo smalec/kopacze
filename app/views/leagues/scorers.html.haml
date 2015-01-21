@@ -1,0 +1,35 @@
+.page-header
+  %h1
+    .label.label-default= @league.town.name
+    = @league.description
+
+%ul.nav.nav-tabs
+  %li= link_to 'Tabela', league_path(@league)
+  %li.active= link_to 'Strzelcy', scorers_league_path(@league)
+  %li= link_to 'Mecze', '#'
+
+%br
+
+%center
+  %div.panel.panel-default{:style => 'width: 50%;'}
+    %table.table
+      %thead
+        %tr
+          %th= '#'
+          %th= 'Zawodnik'
+          %th= 'Klub'
+          %th
+            %center= 'Gole'
+
+      %tbody
+        - @sorted_scorers.each_with_index do |scorer, i|
+          %tr
+            %td= i + 1
+            %td
+              = link_to scorer.full_name, user_path(scorer)
+              - if i == 0
+                %span.glyphicon.glyphicon-star{:style => 'color: gold;'}
+            %td= scorer.team.name
+            %td
+              %b
+                %center= scorer.goals

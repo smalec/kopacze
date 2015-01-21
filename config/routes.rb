@@ -5,7 +5,11 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :leagues
+  resources :leagues do
+    member do
+      get 'scorers'
+    end
+  end
 
   resources :towns
 

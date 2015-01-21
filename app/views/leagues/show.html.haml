@@ -3,6 +3,68 @@
     .label.label-default= @league.town.name
     = @league.description
 
+%ul.nav.nav-tabs
+  %li.active= link_to 'Tabela', league_path(@league)
+  %li= link_to 'Strzelcy', scorers_league_path(@league)
+  %li= link_to 'Mecze', '#'
+
+%br
+
+%center
+  %div.panel.panel-default{:style => 'width: 80%;'}
+    %table.table
+      %thead
+        %tr
+          %th= '#'
+          %th= 'Drużyna'
+          %th
+            %center= 'Mecze'
+          %th
+            %center= 'Gole +'
+          %th
+            %center= 'Gole -'
+          %th
+            %center= '+/-'
+          %th
+            %center= 'Punkty'
+
+      %tbody
+        - @sorted_teams.each_with_index do |team, i|
+          - style = ''
+          - if i < 2
+            - style = 'background-color: #dff0d8;'
+          - elsif i > 7
+            - if @league.division > 0
+              - style = 'background-color: #f2dede;'
+            - elsif i > 9
+              - style = 'background-color: #f2dede;'
+          - if user_signed_in? and current_user.team == team
+            - style += 'font-weight: bold;'
+          %tr{:style => style}
+            %td= i + 1
+            %td= link_to team.name, team_path(team)
+            %td
+              %center= '0'
+            %td
+              %center= team.scored
+            %td
+              %center= team.lost
+            %td
+              %center= team.scored - team.lost
+            %td
+              %b
+                %center= team.points
+
+%span.badge{:style => 'background-color: #dff0d8; color: #3c763d'}= '1-2'
+= 'Awans do wyższej klasy rozgrywkowej'
+%br
+- if @league.division == 0
+  %span.badge{:style => 'background-color: #f2dede; color: #a94442'}= '11-12'
+- else
+  %span.badge{:style => 'background-color: #f2dede; color: #a94442'}= '9-12'
+= 'Spadek do niższej klasy rozgrywkowej'
+%br
+  %br
+
 - if current_user.is_admin
   = link_to 'Edytuj', edit_league_path(@league), :class => 'btn btn-default'
-= link_to 'Wstecz', :back, :class => 'btn btn-default'

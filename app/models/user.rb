@@ -1,6 +1,8 @@
 class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
+  after_initialize :init
+
   enum position: [:gk, :def, :mid, :for]
 
   devise :database_authenticatable, :registerable,
@@ -17,5 +19,10 @@ class User < ActiveRecord::Base
 
   def full_name
     "#{name} #{surname}"
+  end
+
+private
+  def init
+    self.goals ||= 0
   end
 end
