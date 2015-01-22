@@ -1,7 +1,7 @@
 .page-header
   %h1
     - if @team.league != nil
-      .label.label-default= @team.league.description_with_town
+      .label.label-default= link_to @team.league.description_with_town, league_path(@team.league), :style => 'color: white;'
     - else
       .label.label-default= @team.town.name
     = @team.name
@@ -17,17 +17,21 @@
     %table.table.table-striped
       %thead
         %tr
+          %th= '#'
           %th= 'Gracz'
           %th= 'Pozycja'
+          %th= 'Bramek'
           %th= 'Email'
           - if current_user.is_admin or current_user == @team.captain
             %th
 
       %tbody
-        - for player in @team.players
+        - @team.players.each_with_index do |player, i|
           %tr
+            %td= i + 1
             %td= link_to player.full_name, user_path(player)
             %td= @position_name[player.position]
+            %td= player.goals
             %td= player.email
             - if current_user.is_admin or current_user == @team.captain
               - if player == @team.captain

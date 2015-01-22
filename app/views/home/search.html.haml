@@ -1,0 +1,53 @@
+.row
+  .col-md-3
+    <br /><br />
+    = render 'shared/side_panel'
+  .col-md-9
+    .page-header
+      %h1 Wyszukiwarka
+
+    = form_tag home_search_path, :method => :get do
+      %table
+        %tbody
+          %tr
+            %td.has-feedback
+              %i.glyphicon.glyphicon-search.form-control-feedback
+              =text_field_tag :search, params[:search], class: 'form-control', placeholder: 'Szukaj...'
+            %td{style: 'width: 20px;'}
+            %td= select_tag :category, options_for_select(@categories.collect{|cat| [cat[:name], cat[:id]]}, params[:category]),
+                                                                                                    class: 'selectpicker'
+            %td{style: 'width: 20px;'}
+            %td= submit_tag 'Szukaj', :name => nil, :class => 'btn btn-primary', :style => 'color: white;'
+    .row
+      - for results in [@results_left, @results_center, @results_right]
+        .col-md-4
+          - for result in results
+            %div.jumbotron{style: 'padding: 8px 8px;'}
+              %div.container
+                - if result.is_a? User
+                  %h4= result.full_name
+                - else
+                  %h4= result.name
+                %p{style: 'font-size: 115%; color: grey;'}
+                  - if result.is_a? User
+                    = 'Gracz'
+                  - elsif result.is_a? Team
+                    = 'Drużyna'
+                  - else
+                    = 'Miasto'
+                %div{style: 'float: right'}
+                  - if current_user.team == nil and result.is_a? Team and result.town == current_user.town
+                    = link_to 'Aplikuj', '#', :class => 'btn btn-success btn-xs', :style => 'color: white;'
+                  - if result.is_a? User
+                    = link_to 'Pokaż', user_path(result), :class => 'btn btn-primary btn-xs',  :style => 'color: white;'
+                  - elsif result.is_a? Team
+                    = link_to 'Pokaż', team_path(result), :class => 'btn btn-primary btn-xs',  :style => 'color: white;'
+                  - else
+                    = link_to 'Pokaż', town_path(result), :class => 'btn btn-primary btn-xs',  :style => 'color: white;'
+                  - if current_user.is_admin
+                    - if result.is_a? User
+                      = link_to 'Edytuj', edit_user_path(result), :class => 'btn btn-default btn-xs', :style => 'color: white;'
+                    - elsif result.is_a? Team
+                      = link_to 'Edytuj', edit_team_path(result), :class => 'btn btn-default btn-xs', :style => 'color: white;'
+                    - else
+                      = link_to 'Edytuj', edit_town_path(result), :class => 'btn btn-default btn-xs', :style => 'color: white;'

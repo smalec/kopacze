@@ -15,7 +15,7 @@
           %br
           .actions
             = f.submit 'Utwórz', :class => 'btn btn-success btn-lg', :style => 'color: white;'
-            = link_to 'Dołącz do istniejącej', '#', :class => 'btn btn-info btn-lg', :style => 'color: white;'
+            = link_to 'Dołącz do istniejącej', home_search_path, :class => 'btn btn-info btn-lg', :style => 'color: white;'
 
 - if user_signed_in? and current_user.team != nil and current_user.team.league == nil
   %p.alert.alert-info

@@ -12,10 +12,12 @@
           %div.navbar-header
 
             .navbar-toogle{'data-target' => '.navbar-collapse', 'data-toggle' => 'collapse'}
-              - if user_signed_in? and current_user.is_admin == false
+              - if user_signed_in?
                 %span.icon-bar
-              - if user_signed_in? and current_user.team != nil
-                %span.icon-bar
+                - if current_user.is_admin == false
+                  %span.icon-bar
+                - if current_user.team != nil
+                  %span.icon-bar
               %span.icon-bar
 
             = link_to 'Kopacze', root_url, :class => 'navbar-brand'
@@ -23,6 +25,13 @@
           %div.collapse.navbar-collapse.navbar-right
             %ul.nav.navbar-nav
               - if user_signed_in?
+                = form_tag home_search_path, :method => :get, :class => 'navbar-form navbar-left' do
+                  .input-group
+                    = text_field_tag :search, nil, class: 'form-control', placeholder: 'Szukaj...'
+                    = hidden_field_tag :category, '4'
+                    %div.input-group-btn
+                      = button_tag :type => 'submit', :class => 'btn btn-primary' do
+                        %span.glyphicon.glyphicon-search{style: 'height: 19px; margin-top: 1px;'}
                 - if current_user.is_admin
                   %li= link_to 'Panel administracyjny', users_path
 
