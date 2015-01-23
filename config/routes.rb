@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+  get 'invitations', to: 'invitations#index'
+
+  post 'invitations', to: 'invitations#create'
+  delete 'invitations', to: 'invitations#destroy'
+
   resources :teams do
     member do
       delete 'delete_from_team'

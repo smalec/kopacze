@@ -1,0 +1,67 @@
+.row
+  .col-md-3
+    <br /><br />
+    = render 'shared/side_panel'
+  .col-md-9
+    .page-header
+      - if current_user.team != nil
+        %h1 Zgłoszenia
+      - else
+        %h1 Zaproszenia
+
+    %h4= 'Otrzymane'
+
+    %table.table.table-striped
+      %tbody
+        - for unread in @received_unread
+          %tr
+            %td
+              %b
+                - if current_user.team != nil
+                  = 'Gracz '
+                  = link_to unread.user.full_name, user_path(unread.user)
+                  = ' chciałby dołączyć do Twojej drużyny.'
+                - else
+                  = 'Drużyna '
+                  = link_to unread.team.name, team_path(unread.team)
+                  = ' chciałaby, byś dołączył w jej szeregi.'
+            %td
+              = link_to 'Akceptuj', invitations_path(:id => unread.id, :accept => 1), method: :delete,
+                                        class: 'btn btn-success btn-xs', style: 'color: white;'
+              = link_to 'Odrzuć', invitations_path(:id => unread.id, :accept => 0), method: :delete,
+                                      class: 'btn btn-danger btn-xs', style: 'color: white;'
+        - for received in @received
+          %tr
+            %td
+              - if current_user.team != nil
+                = 'Gracz '
+                = link_to received.user.full_name, user_path(received.user)
+                = ' chciałby dołączyć do Twojej drużyny.'
+              - else
+                = 'Drużyna '
+                = link_to received.team.name, team_path(received.team)
+                = ' chciałaby, byś dołączył w jej szeregi.'
+            %td
+              = link_to 'Akceptuj', invitations_path(:id => received.id, :accept => 1), method: :delete,
+                                        class: 'btn btn-success btn-xs', style: 'color: white;'
+              = link_to 'Odrzuć', invitations_path(:id => received.id, :accept => 0), method: :delete,
+                                      class: 'btn btn-danger btn-xs', style: 'color: white;'
+
+    %h4= 'Wysłane'
+
+    %table.table.table-striped
+      %tbody
+        - for sent in @sent
+          %tr
+            %td
+              - if current_user.team != nil
+                = 'Wysłałeś zaproszenie graczowi '
+                = link_to sent.user.full_name, user_path(sent.user)
+                = '.'
+              - else
+                = 'Wysłałeś zgłoszenie do drużyny '
+                = link_to sent.team.name, team_path(sent.team)
+                = '.'
+            %td
+              = link_to 'Wycofaj', invitations_path(:id => sent.id, :accept => 0), method: :delete,
+                                      class: 'btn btn-danger btn-xs', style: 'color: white;'

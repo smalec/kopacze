@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  invitation: false
+  read: false
+
+two:
+  invitation: false
+  read: false

@@ -42,6 +42,9 @@
                                                             :method => :delete, :data => { :confirm => 'Jesteś pewny?' },
                                                             :class => 'btn btn-danger btn-xs', :style => 'color: white;'
 
+- if current_user.team == nil and current_user.town == @team.town
+  = link_to 'Aplikuj', {:controller => 'invitations', :action => 'create', :user_id => current_user.id, :team_id => @team.id},
+                                                  :method => :post, :class => 'btn btn-success', :style => 'color: white;'
 - if current_user.is_admin
   = link_to 'Edytuj', edit_team_path(@team), :class => 'btn btn-default'
 = link_to 'Wstecz', :back, :class => 'btn btn-default'

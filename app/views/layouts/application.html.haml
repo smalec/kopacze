@@ -36,15 +36,25 @@
                   %li= link_to 'Panel administracyjny', users_path
 
                 - if current_user.team != nil
+                  - invs = current_user.team.invitations.select{|inv| inv.invitation == false and inv.read == false}.count
                   %li.dropdown
                     = link_to '#', {class: 'dropdown-toggle', 'data-toggle' => 'dropdown'} do
                       = current_user.team.name
+                      - if current_user == current_user.team.captain
+                        - if invs > 0
+                          %span.badge= invs
                       %span.caret
                     %ul.dropdown-menu
                       %li= link_to 'Profil drużyny', team_path(current_user.team)
                       - if current_user.team.league != nil
                         %li= link_to 'Liga (' + current_user.team.league.description + ')',
                                                       league_path(current_user.team.league)
+                      - if current_user == current_user.team.captain
+                        %li
+                          %a{href: invitations_path}
+                            ='Zgłoszenia'
+                            - if invs > 0
+                              %span.badge= invs
                       %li.divider
                       - if current_user != current_user.team.captain
                         %li= link_to 'Opuść drużynę', {:controller => 'teams', :action => 'delete_from_team',
@@ -56,11 +66,20 @@
                                 :method => :delete, :data => { :confirm => 'Jesteś pewny?' }
 
                 %li.dropdown
+                  - invs = current_user.invitations.select{|inv| inv.invitation and inv.read == false}.count
                   = link_to '#', {class: 'dropdown-toggle', 'data-toggle' => 'dropdown'} do
                     = current_user.full_name
+                    - if current_user.team == nil and invs > 0
+                      %span.badge= invs
                     %span.caret
                   %ul.dropdown-menu
                     %li= link_to 'Profil gracza', user_path(current_user)
+                    - if current_user.team == nil
+                      %li
+                        %a{href: invitations_path}
+                          ='Zaproszenia'
+                          - if invs > 0
+                            %span.badge= invs
                     %li.divider
                     %li= link_to 'Edytuj konto', edit_user_registration_path
                     %li= link_to 'Wyloguj się', destroy_user_session_path , :method => :delete

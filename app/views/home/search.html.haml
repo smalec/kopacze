@@ -37,7 +37,13 @@
                     = 'Miasto'
                 %div{style: 'float: right'}
                   - if current_user.team == nil and result.is_a? Team and result.town == current_user.town
-                    = link_to 'Aplikuj', '#', :class => 'btn btn-success btn-xs', :style => 'color: white;'
+                    = link_to 'Aplikuj', {:controller => 'invitations', :action => 'create', :user_id => current_user.id,
+                      :team_id => result.id},:method => :post, :class => 'btn btn-success btn-xs', :style => 'color: white;'
+                  - if result.is_a? User and current_user.team != nil and current_user.team.captain == current_user
+                    - if current_user.town == result.town and result.team == nil
+                      = link_to 'Zaproś do drużyny', {:controller => 'invitations', :action => 'create',
+                                              :user_id => result.id, :team_id => current_user.team.id},
+                                              :method => :post, :class => 'btn btn-success btn-xs', :style => 'color: white;'
                   - if result.is_a? User
                     = link_to 'Pokaż', user_path(result), :class => 'btn btn-primary btn-xs',  :style => 'color: white;'
                   - elsif result.is_a? Team
@@ -46,8 +52,8 @@
                     = link_to 'Pokaż', town_path(result), :class => 'btn btn-primary btn-xs',  :style => 'color: white;'
                   - if current_user.is_admin
                     - if result.is_a? User
-                      = link_to 'Edytuj', edit_user_path(result), :class => 'btn btn-default btn-xs', :style => 'color: white;'
+                      = link_to 'Edytuj', edit_user_path(result), :class => 'btn btn-default btn-xs'
                     - elsif result.is_a? Team
-                      = link_to 'Edytuj', edit_team_path(result), :class => 'btn btn-default btn-xs', :style => 'color: white;'
+                      = link_to 'Edytuj', edit_team_path(result), :class => 'btn btn-default btn-xs'
                     - else
-                      = link_to 'Edytuj', edit_town_path(result), :class => 'btn btn-default btn-xs', :style => 'color: white;'
+                      = link_to 'Edytuj', edit_town_path(result), :class => 'btn btn-default btn-xs'
