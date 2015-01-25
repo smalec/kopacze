@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  get 'matches/add_scorers'
+
+  resources :matches
+
   get 'invitations', to: 'invitations#index'
 
   post 'invitations', to: 'invitations#create'

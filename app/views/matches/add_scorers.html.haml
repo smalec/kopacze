@@ -1,0 +1,18 @@
+- if @home == 1
+  = fields_for :home_scorers do |scorer|
+    - for i in 1..@score
+      .space{style: 'height: 10px;'}
+      - if @match
+        = scorer.collection_select "home_scorer_#{i}", @players, :id, :full_name, {selected: @match.home_scorers[i - 1]},
+                                                                                                  {class: 'selectpicker'}
+      - else
+        = scorer.collection_select "home_scorer_#{i}", @players, :id, :full_name, {}, {class: 'selectpicker'}
+- else
+  = fields_for :visitor_scorers do |scorer|
+    - for i in 1..@score
+      .space{style: 'height: 10px;'}
+      - if @match
+        = scorer.collection_select "visitor_scorer_#{i}", @players, :id, :full_name, {selected: @match.visitor_scorers[i - 1]},
+                                                                                                      {class: 'selectpicker'}
+      - else
+        = scorer.collection_select "visitor_scorer_#{i}", @players, :id, :full_name, {}, {class: 'selectpicker'}

@@ -16,6 +16,9 @@
 //= require jquery.turbolinks
 //= require twitter/bootstrap
 //= require bootstrap-select
+//= require bootstrap-datepicker
+//= require bootstrap-datepicker/core
+//= require bootstrap-datepicker/locales/bootstrap-datepicker.pl.js
 //= require_tree .
 
 $(document).ready(function() {

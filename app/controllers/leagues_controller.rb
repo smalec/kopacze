@@ -20,7 +20,7 @@ class LeaguesController < ApplicationController
     for team in @league.teams
       scorers += team.players.select{|player| player.goals > 0}
     end
-    @sorted_scorers = scorers.sort_by{:goals}.reverse
+    @sorted_scorers = scorers.sort_by{|scorer| scorer.goals}.reverse
   end
 
   def new
@@ -88,7 +88,7 @@ class LeaguesController < ApplicationController
 
     def valid_is_admin
       if current_user.is_admin == false
-        redirect_to root_path, alert: 'Nie posiadasz uprawnień administratora'
+        redirect_to root_path, alert: 'Nie posiadasz uprawnień administratora.'
       end
     end
 end

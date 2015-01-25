@@ -1,0 +1,6 @@
+class ChangeHomeScorersTypeAndVisitorScorersTypeInMatches < ActiveRecord::Migration
+  def change
+    change_column :matches, :home_scorers, :text, array: true, default: []
+    change_column :matches, :visitor_scorers, :text, array: true, default: []
+  end
+end

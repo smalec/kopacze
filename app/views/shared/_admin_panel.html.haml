@@ -15,5 +15,9 @@
     %li.active= link_to 'Zespoły', teams_path
   - else
     %li= link_to 'Zespoły', teams_path
+  - if current_page?(matches_path)
+    %li.active= link_to 'Mecze', matches_path
+  - else
+    %li= link_to 'Mecze', matches_path
 
 %br

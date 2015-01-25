@@ -1,0 +1,42 @@
+%center
+  %h4
+    = 'Data: '
+    = @match.date
+  %h4
+    = @match.league.description_with_town
+  %table
+    %thead
+      %tr
+        %th
+        %th
+        %th{style: 'width: 25px;'}
+        %th
+        %th
+    %tbody
+      %tr
+        %td
+          %h2= link_to @match.home.name, team_path(@match.home)
+        %td
+          %h2{style: 'text-align: right; margin-left: 25px;'}= @match.home_score
+        %td
+          %center
+            %h2= ':'
+        %td
+          %h2{style: 'text-align: left; margin-right: 25px;'}= @match.visitor_score
+        %td
+          %h2= link_to @match.visitor.name, team_path(@match.visitor)
+      %tr{style: 'height: 20px'}
+      - for i in 0..(@rows - 1)
+        %tr{style: 'height: 8px;'}
+          %td
+            - if i < @match.home_score
+              - scorer = User.find(@match.home_scorers[i])
+              %h5{style: 'text-align: right; height: 8px;'}= link_to scorer.full_name, user_path(scorer)
+          %td{colspan: 3}
+          %td
+            - if i < @match.visitor_score
+              - scorer = User.find(@match.visitor_scorers[i])
+              %h5{style: 'height: 8px;'}= link_to scorer.full_name, user_path(scorer)
+%br
+- if current_user.is_admin
+  = link_to 'Edytuj', edit_match_path(@match), :class => 'btn btn-default'

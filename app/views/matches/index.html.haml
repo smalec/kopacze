@@ -1,0 +1,24 @@
+= render 'shared/admin_panel'
+
+%table.table.table-striped
+  %thead
+    %tr
+      %th= 'Data'
+      %th= 'Liga'
+      %th= 'Mecz'
+      %th= 'Wynik'
+      %th
+
+  - @matches.each do |match|
+    %tr
+      %td= match.date
+      %td= match.league.description_with_town
+      %td= match.vs
+      %td= match.result
+      %td
+        = link_to 'Pokaż', match, :class => 'btn btn-default btn-xs'
+        = link_to 'Edytuj', edit_match_path(match), :class => 'btn btn-default btn-xs'
+        = link_to 'Usuń', match, :method => :delete, :data => { :confirm => 'Jesteś pewny?' },
+                                                    :class => 'btn btn-danger btn-xs', :style => 'color: white;'
+
+= link_to 'Nowy mecz', new_match_path, :class => 'btn btn-primary', :style => 'color: white;'

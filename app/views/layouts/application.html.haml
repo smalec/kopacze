@@ -57,11 +57,11 @@
                               %span.badge= invs
                       %li.divider
                       - if current_user != current_user.team.captain
-                        %li= link_to 'Opuść drużynę', {:controller => 'teams', :action => 'delete_from_team',
+                        %li= link_to 'Opuść drużynę', {:controller => '/teams', :action => 'delete_from_team',
                                 :id => current_user.team.id, :player_id => current_user.id, :team => current_user.team},
                                 :method => :delete, :data => { :confirm => 'Jesteś pewny?' }
                       - else
-                        %li= link_to 'Rozwiąż drużynę', {:controller => 'teams', :action => 'destroy',
+                        %li= link_to 'Rozwiąż drużynę', {:controller => '/teams', :action => 'destroy',
                                 :id => current_user.team.id, :player_id => current_user.id, :team => current_user.team},
                                 :method => :delete, :data => { :confirm => 'Jesteś pewny?' }
 

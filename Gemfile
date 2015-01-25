@@ -31,6 +31,7 @@ gem 'devise'
 
 gem 'bootstrap-select-rails'
 gem 'less-rails-bootstrap'
+gem 'bootstrap-datepicker-rails'
 
 gem 'haml-rails'
 gem 'erb2haml'
