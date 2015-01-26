@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   resources :leagues do
     member do
       get 'scorers'
+      get 'matches'
     end
   end
 

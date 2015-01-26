@@ -1,7 +1,7 @@
 class LeaguesController < ApplicationController
-  before_action :set_league, only: [:show, :edit, :update, :destroy, :scorers]
+  before_action :set_league, only: [:show, :edit, :update, :destroy, :scorers, :matches]
   before_action :authenticate_user!
-  before_filter :valid_is_admin, except: [:show, :scorers]
+  before_filter :valid_is_admin, except: [:show, :scorers, :matches]
 
   respond_to :html
 
@@ -21,6 +21,10 @@ class LeaguesController < ApplicationController
       scorers += team.players.select{|player| player.goals > 0}
     end
     @sorted_scorers = scorers.sort_by{|scorer| scorer.goals}.reverse
+  end
+
+  def matches
+    @matches = @league.matches.sort_by{|match| match.date}.reverse
   end
 
   def new

@@ -94,6 +94,8 @@ class MatchesController < ApplicationController
     elsif @match.home_score == @match.visitor_score
       @match.home.points -= 1
       @match.visitor.points -= 1
+    else
+      @match.visitor.points -= 3
     end
     @match.home.save
     @match.visitor.save
@@ -121,6 +123,8 @@ class MatchesController < ApplicationController
     elsif @match.home_score == @match.visitor_score
       @match.home.points += 1
       @match.visitor.points += 1
+    else
+      @match.visitor.points += 3
     end
     @match.home.save
     @match.visitor.save

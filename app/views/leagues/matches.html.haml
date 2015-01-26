@@ -1,0 +1,33 @@
+.page-header
+  %h1
+    .label.label-default= link_to @league.town.name, town_path(@league.town), :style => 'color: white;'
+    = @league.description
+
+%ul.nav.nav-tabs
+  %li= link_to 'Tabela', league_path(@league)
+  %li= link_to 'Strzelcy', scorers_league_path(@league)
+  %li.active= link_to 'Mecze', matches_league_path(@league)
+
+%br
+%center
+  - for match in @matches
+    - if current_user.team == match.home or current_user.team == match.visitor
+      %a{href: match_path(match), style: 'font-weight: bold;'}
+        = match.date
+        &nbsp &nbsp &nbsp
+        = match.vs
+        &nbsp &nbsp
+        = match.result
+        %br
+    - else
+      %a{href: match_path(match)}
+        = match.date
+        &nbsp &nbsp &nbsp
+        = match.vs
+        &nbsp &nbsp
+        = match.result
+        %br
+
+%br
+- if current_user.team != nil and current_user.team.captain == current_user
+  = link_to 'Dodaj raport meczowy', new_match_path, :class => 'btn btn-primary', :style => 'color: white;'
