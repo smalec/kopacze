@@ -25,4 +25,13 @@ class HomeController < ApplicationController
 
     @categories = [{id: 1, name: 'Drużyna'}, {id: 2, name: 'Gracz'}, {id: 3, name: 'Miasto'}, {id: 4, name: 'Wszystko'}]
   end
+
+  def rules
+  end
+
+  def about
+  end
+
+  def contact
+  end
 end

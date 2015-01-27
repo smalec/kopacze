@@ -19,6 +19,9 @@
       = ' ('
       = link_to @user.team.league.description, league_path(@user.team.league)
       = ')'
+%p
+  %b= 'Bramki: '
+  = @user.goals
 
 - if current_user.town == @user.town and current_user.team != nil and current_user.team.captain == current_user and @user.team == nil
   = link_to 'Zaproś do drużyny', {:controller => 'invitations', :action => 'create',

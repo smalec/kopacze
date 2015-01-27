@@ -1,0 +1,22 @@
+.row
+  .col-md-3
+    <br /><br />
+    = render 'shared/side_panel'
+  .col-md-9
+    .page-header
+      %h1 O Kopaczach
+    %p.lead{style: 'font-size: 19px; text-indent: 25px;'}
+      = 'Serwis Kopacze umożliwia fanom piłki nożnej zakładanie własnych, amatorskich drużyn oraz rywalizowanie '
+      = 'z innymi zespołami w strukturach ligowych.'
+    %p.lead{style: 'font-size: 15px; text-indent: 25px;'}
+      = 'Jeśli nudzi Cię już zwykłe kopanie piłki z kolegami na podwórku i szukasz większej dawki emocji związanych '
+      = 'z kolejnymi rozgrywanymi meczami, jednocześnie dalej traktując piłkę jako zabawę, to ten portal został '
+      = 'stworzony z myślą o ludziach dokładnie takich jak Ty. Skrzyknij znajomych lub znajdź sobie nowych partnerów, '
+      = 'umawiaj się na mecze i wepnij się na szczyt tabeli w swoim mieście.'
+
+    - if user_signed_in? == false
+      %br
+        %center
+          = link_to 'Załóż konto', new_user_registration_path, class: 'btn btn-primary btn-lg', style: 'color: white;'
+          &nbsp
+          = link_to 'Zaloguj się', new_user_session_path, class: 'btn btn-info btn-lg', style: 'color: white;'

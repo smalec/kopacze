@@ -1,6 +1,42 @@
+- if user_signed_in? and current_user.team != nil and current_user.team.league != nil
+  %div.panel.panel-default
+    %table.table
+      %thead
+        %tr
+          %td{colspan: 4, style: 'line-height: 10px;'}
+            %center
+              %b= link_to current_user.team.league.description_with_town, league_path(current_user.team.league)
+
+      %tbody
+        - current_user.team.league.teams.sort_by{|team| [team.points, team.scored - team.lost, team.scored]}.reverse.each_with_index do |team, i|
+          - style = ''
+          - if i < 2
+            - style = 'background-color: #dff0d8;'
+          - elsif i > 7
+            - if @league.division > 0
+              - style = 'background-color: #f2dede;'
+            - elsif i > 9
+              - style = 'background-color: #f2dede;'
+          - if user_signed_in? and current_user.team == team
+            - style += 'font-weight: bold;'
+          %tr{:style => style}
+            %td{style: 'line-height: 12px;'}= i + 1
+            %td{style: 'line-height: 12px;'}= link_to team.name, team_path(team)
+            %td{style: 'line-height: 12px;'}
+              %center= team.home_matches.count + team.visitor_matches.count
+            %td{style: 'width: 22px; text-align: right; line-height: 12px;'}
+              %b= team.points
+
+  .panel.panel-info
+    .panel-heading
+      %b Najbliższy mecz
+
 .panel.panel-info
   .panel-heading
-    %b Nagłówek
+    %b Nawigacja
   %ul.list-group
-    %a.list-group-item{href: root_path} Link
-    %a.list-group-item{href: root_path} Link
+    %a.list-group-item{href: root_path} Strona główna
+    %a.list-group-item{href: home_search_path} Wyszukiwarka
+    %a.list-group-item{href: home_rules_path} Zasady
+    %a.list-group-item{href: home_about_path} O Kopaczach
+    %a.list-group-item{href: home_contact_path} Kontakt

@@ -29,6 +29,9 @@ Rails.application.routes.draw do
 
   get 'home/index'
   get 'home/search'
+  get 'home/rules'
+  get 'home/about'
+  get 'home/contact'
 
   root 'home#index'
 
