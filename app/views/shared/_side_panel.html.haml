@@ -27,9 +27,18 @@
             %td{style: 'width: 22px; text-align: right; line-height: 12px;'}
               %b= team.points
 
-  .panel.panel-info
-    .panel-heading
-      %b Najbliższy mecz
+  - if current_user.team.received_match_invitations.where(:accepted => true).count > 0
+    - upcoming_match = current_user.team.received_match_invitations.where(:accepted => true).last
+    .panel.panel-info
+      .panel-heading
+        %b Najbliższy mecz
+      .panel-body
+        %center
+          %h4{:style => 'margin-top: 2px;'}= link_to upcoming_match.sender.name, team_path(upcoming_match.sender)
+          %h5= 'vs.'
+          %h4{:style => 'margin-top: 5px;'}= link_to upcoming_match.receiver.name, team_path(upcoming_match.receiver)
+          .italic{:style => 'font-style: italic;'}= upcoming_match.date.to_s + ', ' + upcoming_match.place.to_s
+
 
 .panel.panel-info
   .panel-heading

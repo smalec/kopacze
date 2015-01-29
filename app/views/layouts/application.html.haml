@@ -37,18 +37,27 @@
 
                 - if current_user.team != nil
                   - invs = current_user.team.invitations.select{|inv| inv.invitation == false and inv.read == false}.count
+                  - match_invs = current_user.team.received_match_invitations.select{|inv| inv.read == false}.count
                   %li.dropdown
                     = link_to '#', {class: 'dropdown-toggle', 'data-toggle' => 'dropdown'} do
                       = current_user.team.name
                       - if current_user == current_user.team.captain
-                        - if invs > 0
-                          %span.badge= invs
+                        - if invs + match_invs > 0
+                          %span.badge= invs + match_invs
                       %span.caret
                     %ul.dropdown-menu
                       %li= link_to 'Profil drużyny', team_path(current_user.team)
                       - if current_user.team.league != nil
                         %li= link_to 'Liga (' + current_user.team.league.description + ')',
                                                       league_path(current_user.team.league)
+                        %li
+                          - if current_user == current_user.team.captain
+                            %a{href: matches_team_matches_path}
+                              ='Mecze'
+                              - if match_invs > 0
+                                %span.badge= match_invs
+                          - else
+                            =link_to 'Mecze', matches_team_matches_path
                       - if current_user == current_user.team.captain
                         %li
                           %a{href: invitations_path}

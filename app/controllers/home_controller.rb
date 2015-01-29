@@ -1,5 +1,10 @@
 class HomeController < ApplicationController
+  before_action :authenticate_user!, only: [:search]
+
   def index
+    @last_users = User.last(3)
+    @last_teams = Team.last(3)
+    @last_matches = Match.last(3)
     if user_signed_in? and current_user.team == nil
       @team = Team.new
     end

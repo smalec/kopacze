@@ -1,0 +1,98 @@
+.row
+  .col-md-3
+    <br /><br />
+    = render 'shared/side_panel'
+  .col-md-9
+    .page-header
+      %h1 Mecze
+
+    %ul.nav.nav-tabs
+      %li.active.set-played= link_to 'Rozegrane', '#'
+      %li.set-upcoming= link_to 'Nadchodzące', '#'
+      - if current_user.team.captain == current_user
+        %li.set-received
+          %a{href: '#'}
+            ='Otrzymane zaproszenia'
+            - if @received_unread.count > 0
+              %span.badge= @received_unread.count
+        %li.set-sent= link_to 'Wysłane zaproszenia', '#'
+
+    %div.played
+      %table.table.table-striped
+        %thead
+          %tr
+            %th= 'Data'
+            %th= 'Mecz'
+            %th= 'Wynik'
+
+        %tbody
+          - @played.each do |match|
+            %tr
+              %td= match.date
+              %td= match.vs
+              %td= match.result
+
+    %div.upcoming{:style => 'display: none;'}
+      %table.table.table-striped
+        %thead
+          %tr
+            %th= 'Data'
+            %th= 'Miejsce'
+            %th= 'Mecz'
+
+        %tbody
+          - @upcoming.each do |invitation|
+            %tr
+              %td= invitation.date
+              %td= invitation.place
+              %td= invitation.vs
+
+    - if current_user.team.captain == current_user
+      %div.received{:style => 'display: none;'}
+        %table.table.table-striped
+          %tbody
+            - for unread in @received_unread
+              %tr
+                %td
+                  %b
+                    = 'Drużyna '
+                    = link_to unread.sender.name, team_path(unread.sender)
+                    = ' proponuje spotkanie '
+                    = unread.date
+                    = ' w: '
+                    = unread.place
+                %td
+                  = link_to 'Akceptuj', matches_invitation_path(:id => unread.id, :accept => 1), method: :delete,
+                                            class: 'btn btn-success btn-xs', style: 'color: white;'
+                  = link_to 'Odrzuć', matches_invitation_path(:id => unread.id, :accept => 0), method: :delete,
+                                          class: 'btn btn-danger btn-xs', style: 'color: white;'
+            - for received in @received
+              %tr
+                %td
+                  = 'Drużyna '
+                  = link_to received.sender.name, team_path(received.sender)
+                  = ' proponuje spotkanie '
+                  = received.date
+                  = ' w: '
+                  = received.place
+                %td
+                  = link_to 'Akceptuj', matches_invitation_path(:id => received.id, :accept => 1), method: :delete,
+                                            class: 'btn btn-success btn-xs', style: 'color: white;'
+                  = link_to 'Odrzuć', matches_invitation_path(:id => received.id, :accept => 0), method: :delete,
+                                          class: 'btn btn-danger btn-xs', style: 'color: white;'
+
+      %div.sent{:style => 'display: none;'}
+        %table.table.table-striped
+          %tbody
+            - for sent in @sent
+              %tr
+                %td
+                  = 'Zaproponowałeś drużynie '
+                  = link_to sent.receiver.name, team_path(sent.receiver)
+                  = ' spotkanie '
+                  = sent.date
+                  = ' w '
+                  = sent.place
+                %td
+                  = link_to 'Wycofaj', matches_invitation_path(:id => sent.id, :accept => 0), method: :delete,
+                                          class: 'btn btn-danger btn-xs', style: 'color: white;'

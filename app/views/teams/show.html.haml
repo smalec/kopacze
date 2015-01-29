@@ -42,9 +42,27 @@
                                                             :method => :delete, :data => { :confirm => 'Jesteś pewny?' },
                                                             :class => 'btn btn-danger btn-xs', :style => 'color: white;'
 
+.invitation-form{style: 'display: none;'}
+  %br
+    = form_tag(:method => 'post', :controller => 'matches', :action => 'create_invitation') do
+      .form-group
+        = label_tag 'Data'
+        .controls
+          = text_field_tag :date, nil, class: 'form-control datepicker', style: 'width: 150px;'
+      .form-group
+        = label_tag 'Miejsce'
+        .controls
+          = text_field_tag :place, nil, class: 'form-control'
+          = hidden_field_tag :sender_id, current_user.team.id
+          = hidden_field_tag :receiver_id, @team.id
+
+      .actions
+        = submit_tag 'Zaproponuj', :class => 'btn btn-success', :style => 'color: white;'
+
 - if current_user.team == nil and current_user.town == @team.town
   = link_to 'Aplikuj', {:controller => 'invitations', :action => 'create', :user_id => current_user.id, :team_id => @team.id},
                                                   :method => :post, :class => 'btn btn-success', :style => 'color: white;'
+- if current_user.team != nil and current_user.team.captain == current_user and current_user.team.league == @team.league and current_user.team != @team
+  %button.btn.btn-success.invite{:style => 'color: white;', 'data-id' => @team.id}= 'Zaproponuj spotkanie'
 - if current_user.is_admin
   = link_to 'Edytuj', edit_team_path(@team), :class => 'btn btn-default'
-= link_to 'Wstecz', :back, :class => 'btn btn-default'

@@ -30,3 +30,65 @@
   .col-md-9
     .page-header
       %h1 Strona główna
+
+    %div.bs-callout.bs-callout-info
+      %h4 Ostatnio dołączyli
+      .row
+        - for i in (0..@last_users.count - 1).reverse_each
+          - user = @last_users[i]
+          .col-md-4
+            %div.jumbotron{style: 'padding: 8px 8px; margin: 10px 0px 0px 0px;'}
+              %div.container
+                %h4{style: 'color: inherit'}= user.full_name
+                %p{style: 'font-size: 115%; color: grey;'}= @position_name[user.position] + ', ' + user.town.name
+                %div{style: 'float: right'}
+                  - if user_signed_in? and current_user.team != nil and current_user.team.captain == current_user
+                    - if current_user.town == user.town and user.team == nil
+                      = link_to 'Zaproś', {:controller => 'invitations', :action => 'create',
+                                              :user_id => user.id, :team_id => current_user.team.id},
+                                              :method => :post, :class => 'btn btn-success btn-xs', :style => 'color: white;'
+                  = link_to 'Pokaż', user_path(user), :class => 'btn btn-primary btn-xs',  :style => 'color: white;'
+                  - if user_signed_in? and current_user.is_admin
+                    = link_to 'Edytuj', edit_user_path(user), :class => 'btn btn-default btn-xs'
+
+    %div.bs-callout.bs-callout-info
+      %h4 Ostatnio założone zespoły
+      .row
+        - for i in (0..@last_teams.count - 1).reverse_each
+          - team = @last_teams[i]
+          .col-md-4
+            %div.jumbotron{style: 'padding: 8px 8px; margin: 10px 0px 0px 0px;'}
+              %div.container
+                %h4{style: 'color: inherit'}= team.name
+                %p{style: 'font-size: 115%; color: grey;'}= 'Drużyna, ' + team.town.name
+                %div{style: 'float: right'}
+                  - if user_signed_in? and current_user.team == nil and current_user.town == team.town
+                    = link_to 'Aplikuj', {:controller => 'invitations', :action => 'create', :user_id => current_user.id,
+                                          :team_id => team.id},:method => :post, :class => 'btn btn-success btn-xs',
+                                          :style => 'color: white;'
+                  = link_to 'Pokaż', team_path(team), :class => 'btn btn-primary btn-xs',  :style => 'color: white;'
+                  - if user_signed_in? and current_user.is_admin
+                    = link_to 'Edytuj', edit_team_path(team), :class => 'btn btn-default btn-xs'
+
+    %div.bs-callout.bs-callout-info
+      %h4 Ostatnio rozegrane mecze
+      .row
+        - for i in (0..@last_matches.count - 1).reverse_each
+          - match = @last_matches[i]
+          .col-md-4
+            %div.jumbotron{style: 'padding: 8px 8px; margin: 10px 0px 0px 0px;'}
+              %div.container
+                .row
+                  .col-md-10
+                    %h4{style: 'color: inherit'}= match.home.name
+                  .col-md-2
+                    %h4{style: 'color: inherit; float: right;'}= match.home_score
+                .row
+                  .col-md-10
+                    %h4{style: 'color: inherit'}= match.visitor.name
+                  .col-md-2
+                    %h4{style: 'color: inherit; float: right;'}= match.visitor_score
+                %div{style: 'float: right'}
+                  = link_to 'Pokaż', match_path(match), :class => 'btn btn-primary btn-xs',  :style => 'color: white;'
+                  - if user_signed_in? and current_user.is_admin
+                    = link_to 'Edytuj', edit_match_path(match), :class => 'btn btn-default btn-xs'

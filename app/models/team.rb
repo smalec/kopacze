@@ -8,6 +8,8 @@ class Team < ActiveRecord::Base
   has_many :invitations
   has_many :home_matches, class_name: 'Match', foreign_key: 'home_id'
   has_many :visitor_matches, class_name: 'Match', foreign_key: 'visitor_id'
+  has_many :send_match_invitations, class_name: 'MatchInvitation', foreign_key: 'sender_id'
+  has_many :received_match_invitations, class_name: 'MatchInvitation', foreign_key: 'receiver_id'
 
   validates :name, presence: true
 

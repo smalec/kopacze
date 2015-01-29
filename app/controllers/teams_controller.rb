@@ -1,7 +1,7 @@
 class TeamsController < ApplicationController
   before_action :set_team, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!
-  before_filter :valid_is_admin, except: [:show, :delete_from_team, :create, :destroy]
+  before_filter :valid_is_admin, except: [:show, :delete_from_team, :create, :destroy, :invitation]
   before_action :set_position_name
 
   respond_to :html

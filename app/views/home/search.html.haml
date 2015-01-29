@@ -30,9 +30,9 @@
                   %h4= result.name
                 %p{style: 'font-size: 115%; color: grey;'}
                   - if result.is_a? User
-                    = 'Gracz'
+                    = @position_name[result.position] + ', ' + result.town.name
                   - elsif result.is_a? Team
-                    = 'Drużyna'
+                    = 'Drużyna, ' + result.town.name
                   - else
                     = 'Miasto'
                 %div{style: 'float: right'}

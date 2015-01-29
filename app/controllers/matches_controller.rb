@@ -1,7 +1,7 @@
 class MatchesController < ApplicationController
   before_action :set_match, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!
-  before_filter :valid_is_admin, except: [:show, :new]
+  before_filter :valid_is_admin, except: [:show, :new, :team_matches, :create_invitation, :destroy_invitation]
 
   respond_to :html
 
@@ -15,6 +15,25 @@ class MatchesController < ApplicationController
     respond_with(@match)
   end
 
+  def team_matches
+    @played = current_user.team.home_matches + current_user.team.visitor_matches
+    @played.sort!{|match| match.date}.reverse
+
+    @upcoming = MatchInvitation.where(:sender_id => current_user.team.id, :accepted => true)
+    @upcoming += MatchInvitation.where(:receiver_id => current_user.team.id, :accepted => true)
+    @upcoming.sort!{|invitation| invitation.date}
+
+    @received_unread = current_user.team.received_match_invitations.select{|inv| inv.read == false}
+    @received = current_user.team.received_match_invitations.select{|inv| inv.read}
+
+    @sent = current_user.team.send_match_invitations
+
+    for unread in @received_unread
+      unread.read = true
+      unread.save
+    end
+  end
+
   def add_scorers
     @home = params[:home].to_i
     @score = params[:score].to_i
@@ -25,6 +44,23 @@ class MatchesController < ApplicationController
     respond_to do |format|
       format.html { render :layout => false }
     end
+  end
+
+  def create_invitation
+    @invitation = MatchInvitation.new(invitation_params)
+    @invitation.save
+    redirect_to :back, notice: 'Pomyślnie wysłano propozycję spotkania.'
+  end
+
+  def destroy_invitation
+    invitation = MatchInvitation.find(params[:id])
+    if params[:accept] == '1'
+      invitation.accepted = true
+      invitation.save
+    else
+      invitation.destroy
+    end
+    redirect_to :back
   end
 
   def new
@@ -76,6 +112,10 @@ class MatchesController < ApplicationController
 
   def match_params
     params.require(:match).permit(:home_id, :visitor_id, :league_id, :visitor_score, :home_score, :date)
+    end
+
+  def invitation_params
+    params.permit(:sender_id, :receiver_id, :date, :place)
   end
 
   def valid_is_admin

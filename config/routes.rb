@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   get 'matches/add_scorers'
-
+  get 'matches/team_matches'
+  post 'matches/invitation', to: 'matches#create_invitation'
+  delete 'matches/invitation', to: 'matches#destroy_invitation'
   resources :matches
 
   get 'invitations', to: 'invitations#index'
