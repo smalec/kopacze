@@ -8,6 +8,13 @@ class MatchInvitation < ActiveRecord::Base
     "#{sender.name} - #{receiver.name}"
   end
 
+  def self.delete_old_invitations
+    invs = MatchInvitation.where(:date => Date.today.to_s)
+    for inv in invs
+      inv.destroy
+    end
+  end
+
 private
   def init
     self.read ||= false

@@ -33,6 +33,8 @@ gem 'bootstrap-select-rails'
 gem 'less-rails-bootstrap'
 gem 'bootstrap-datepicker-rails'
 
+gem 'whenever', :require => false
+
 gem 'haml-rails'
 gem 'erb2haml'
 

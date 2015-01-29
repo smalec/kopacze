@@ -26,9 +26,10 @@
               %center= team.home_matches.count + team.visitor_matches.count
             %td{style: 'width: 22px; text-align: right; line-height: 12px;'}
               %b= team.points
-
-  - if current_user.team.received_match_invitations.where(:accepted => true).count > 0
-    - upcoming_match = current_user.team.received_match_invitations.where(:accepted => true).last
+  - invs = current_user.team.send_match_invitations.where(:accepted => true)
+  - invs += current_user.team.received_match_invitations.where(:accepted => true)
+  - if invs.count > 0
+    - upcoming_match = invs.last
     .panel.panel-info
       .panel-heading
         %b Najbliższy mecz
