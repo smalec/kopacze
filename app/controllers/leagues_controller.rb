@@ -6,7 +6,7 @@ class LeaguesController < ApplicationController
   respond_to :html
 
   def index
-    @leagues = League.all
+    @leagues = League.all.paginate(:page => params[:page], :per_page => 20)
     respond_with(@leagues)
   end
 

@@ -29,6 +29,7 @@
                   .input-group
                     = text_field_tag :search, nil, class: 'form-control', placeholder: 'Szukaj...'
                     = hidden_field_tag :category, '4'
+                    = hidden_field_tag :position, '1'
                     %div.input-group-btn
                       = button_tag :type => 'submit', :class => 'btn btn-primary' do
                         %span.glyphicon.glyphicon-search{style: 'height: 19px; margin-top: 1px;'}

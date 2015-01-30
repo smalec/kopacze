@@ -67,3 +67,6 @@
                       = link_to 'Edytuj', edit_team_path(result), :class => 'btn btn-default btn-xs'
                     - else
                       = link_to 'Edytuj', edit_town_path(result), :class => 'btn btn-default btn-xs'
+
+    %center
+      = will_paginate @results, renderer: BootstrapPagination::Rails

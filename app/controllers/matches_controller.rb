@@ -6,7 +6,7 @@ class MatchesController < ApplicationController
   respond_to :html
 
   def index
-    @matches = Match.all
+    @matches = Match.all.paginate(:page => params[:page], :per_page => 20)
     respond_with(@match)
   end
 

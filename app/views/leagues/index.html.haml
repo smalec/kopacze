@@ -19,4 +19,6 @@
         = link_to 'Usuń', league, :method => :delete, :data => { :confirm => 'Jesteś pewny?' },
                                                     :class => 'btn btn-danger btn-xs', :style => 'color: white;'
 
+%center
+  = will_paginate @leagues, renderer: BootstrapPagination::Rails
 = link_to 'Nowa liga', new_league_path, :class => 'btn btn-primary', :style => 'color: white;'

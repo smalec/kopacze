@@ -35,6 +35,8 @@ gem 'bootstrap-datepicker-rails'
 
 gem 'whenever', :require => false
 
+gem 'will_paginate-bootstrap'
+
 gem 'haml-rails'
 gem 'erb2haml'
 

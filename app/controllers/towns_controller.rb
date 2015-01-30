@@ -6,7 +6,7 @@ class TownsController < ApplicationController
   respond_to :html
 
   def index
-    @towns = Town.all
+    @towns = Town.all.paginate(:page => params[:page], :per_page => 20)
     respond_with(@towns)
   end
 

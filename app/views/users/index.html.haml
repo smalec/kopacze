@@ -28,3 +28,6 @@
           - else
             = link_to 'Usuń konto', user, :method => :delete, :data => { :confirm => 'Jesteś pewny?' },
                                                     :class => 'btn btn-danger btn-xs', :style => 'color: white;'
+
+%center
+  = will_paginate @users, renderer: BootstrapPagination::Rails
