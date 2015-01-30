@@ -16,11 +16,18 @@ class HomeController < ApplicationController
     if params[:search]
       category_hash = {'1' => [Team], '2' => [User], '3'  => [Town], '4' => [Team, User, Town]}
       category_hash[params[:category]].each do |table|
-        results += table.where('name LIKE ?', "%#{params[:search]}%")
         if table == User
-          table.where('surname LIKE ?', "%#{params[:search]}%").each do |user|
-            results.push(user) unless results.include?(user)
+          if params[:position] == 1
+            results += table.where('name LIKE ? OR surname LIKE ?', "%#{params[:search]}%", "%#{params[:search]}%")
+          else
+            results += table.where('(name LIKE ? OR surname LIKE ?) AND position = ?', "%#{params[:search]}%",
+                                                                      "%#{params[:search]}%", params[:position].to_i - 2)
           end
+          if params[:free]
+            results.select!{|res| res.team == nil}
+          end
+        else
+          results += table.where('name LIKE ?', "%#{params[:search]}%")
         end
       end
     end
@@ -29,6 +36,8 @@ class HomeController < ApplicationController
     @results_right  = results.select{|result| results.index(result) % 3 == 2}
 
     @categories = [{id: 1, name: 'Drużyna'}, {id: 2, name: 'Gracz'}, {id: 3, name: 'Miasto'}, {id: 4, name: 'Wszystko'}]
+    @positions = [{id: 1, name: 'Dowolna pozycja'}, {id: 2, name: 'Bramkarz'}, {id: 3, name: 'Obrońca'},
+                  {id: 4, name: 'Pomocnik'}, {id: 5, name: 'Napastnik'}]
   end
 
   def rules

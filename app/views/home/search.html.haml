@@ -13,10 +13,20 @@
             %td.has-feedback
               %i.glyphicon.glyphicon-search.form-control-feedback
               =text_field_tag :search, params[:search], class: 'form-control', placeholder: 'Szukaj...'
-            %td{style: 'width: 20px;'}
+            %td{style: 'width: 15px;'}
             %td= select_tag :category, options_for_select(@categories.collect{|cat| [cat[:name], cat[:id]]}, params[:category]),
-                                                                                                    class: 'selectpicker'
-            %td{style: 'width: 20px;'}
+                                                                                                class: 'selectpicker cat'
+            %td.player{style: 'width: 15px; display: none;'}
+            %td.player{style: 'display: none;'}
+              = select_tag :position, options_for_select(@positions.collect{|pos| [pos[:name], pos[:id]]}, params[:position]),
+                                                                                                class: 'selectpicker'
+            %td.player{style: 'width: 15px; display: none;'}
+            %td.player{style: 'display: none;'}
+              %div
+                %b= 'Wolny'
+              %div{style: 'margin-top: -2px;'}
+                %center= check_box_tag :free, 1, params[:free]
+            %td{style: 'width: 15px;'}
             %td= submit_tag 'Szukaj', :name => nil, :class => 'btn btn-primary', :style => 'color: white;'
     .row
       - for results in [@results_left, @results_center, @results_right]
