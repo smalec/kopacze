@@ -13,6 +13,15 @@
   %b= 'Zarejestrowanych drużyn: '
   = @town.teams.count
 
+%br
+- for i in (0..@lowest_div)
+  - for league in @town.leagues.select{|league| league.division == i}.sort_by{:group}
+    .glyphicon.glyphicon-chevron-right{style: 'font-size: 10px; color: #A94442;'}
+      %span.resize{style: 'font-size: 13px'}= link_to league.description, league_path(league)
+    %br
+  %br
+
+%br
 - if current_user.is_admin
   = link_to 'Edytuj', edit_town_path(@town), :class => 'btn btn-default'
 = link_to 'Wstecz', :back, :class => 'btn btn-default'

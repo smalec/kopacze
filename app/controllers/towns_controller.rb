@@ -11,6 +11,7 @@ class TownsController < ApplicationController
   end
 
   def show
+    @lowest_div = @town.leagues.sort_by{:division}[-1].division
     respond_with(@town)
   end
 
