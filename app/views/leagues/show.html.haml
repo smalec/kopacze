@@ -44,7 +44,7 @@
             %td= i + 1
             %td= link_to team.name, team_path(team)
             %td
-              %center= team.home_matches.count + team.visitor_matches.count
+              %center= team.home_matches.select{|match| match.confirmed}.count + team.visitor_matches.select{|match| match.confirmed}.count
             %td
               %center= team.scored
             %td

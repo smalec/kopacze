@@ -40,3 +40,11 @@
 %br
 - if current_user.is_admin
   = link_to 'Edytuj', edit_match_path(@match), :class => 'btn btn-default'
+- if @match.confirmed == false and current_user.team == @match.home
+  = link_to 'Wycofaj', match_path(@match, :dependencies => 'save'), :method => :delete, :data => { :confirm => 'Jesteś pewny?' },
+                                                      :class => 'btn btn-danger', :style => 'color: white;'
+- if @match.confirmed == false and current_user.team == @match.visitor
+  = link_to 'Akceptuj', matches_set_dependencies_path(:id => @match.id), :method => :post,
+                                                      :class => 'btn btn-success', :style => 'color: white;'
+  = link_to 'Odrzuć', match_path(@match, :dependencies => 'save'), :method => :delete, :data => { :confirm => 'Jesteś pewny?' },
+                                                      :class => 'btn btn-danger', :style => 'color: white;'

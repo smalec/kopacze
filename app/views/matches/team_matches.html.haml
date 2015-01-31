@@ -10,6 +10,7 @@
       %li.active.set-played= link_to 'Rozegrane', '#'
       %li.set-upcoming= link_to 'Nadchodzące', '#'
       - if current_user.team.captain == current_user
+        %li.set-reports= link_to 'Oczekujące raporty', '#'
         %li.set-received
           %a{href: '#'}
             ='Otrzymane zaproszenia'
@@ -48,6 +49,39 @@
               %td= invitation.vs
 
     - if current_user.team.captain == current_user
+      %div.reports{style: 'display: none;'}
+        %h4= 'Otrzymane'
+        %table.table.table-striped
+          %tbody
+            - for report in @reports_received
+              %tr
+                %td
+                  %b
+                    = 'Drużyna '
+                    = link_to report.home.name, team_path(report.home)
+                    = ' przekazuje Ci raport meczowy do weryfikacji z '
+                    = report.date
+                    = '. Wynik: '
+                    = report.result
+                %td
+                  = link_to 'Pokaż', match_path(report),
+                                            class: 'btn btn-primary btn-xs', style: 'color: white;'
+        %h4= 'Wysłane'
+        %table.table.table-striped
+          %tbody
+            - for report in @reports_sent
+              %tr
+                %td
+                  = 'Przekazałeś drużynie '
+                  = link_to report.visitor.name, team_path(report.visitor)
+                  = ' raport meczowy do weryfikacji z '
+                  = report.date
+                  = '. Wynik: '
+                  = report.result
+                %td
+                  = link_to 'Pokaż', match_path(report),
+                                            class: 'btn btn-primary btn-xs', style: 'color: white;'
+
       %div.received{:style => 'display: none;'}
         %table.table.table-striped
           %tbody
@@ -96,3 +130,7 @@
                 %td
                   = link_to 'Wycofaj', matches_invitation_path(:id => sent.id, :accept => 0), method: :delete,
                                           class: 'btn btn-danger btn-xs', style: 'color: white;'
+
+    %br
+    - if current_user.team != nil and current_user.team.captain == current_user
+      = link_to 'Dodaj raport meczowy', new_match_path, :class => 'btn btn-primary', :style => 'color: white;'

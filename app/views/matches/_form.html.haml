@@ -31,11 +31,13 @@
             %tr
               %td= f.number_field :visitor_score, min: 0, class: 'form-control visitor-score',
                                                           style: 'width: 60px; margin-right: 20px;'
-              %td= f.collection_select :visitor_id, @homes, :id, :name, {}, {class: 'selectpicker visitor'}
+              %td= f.collection_select :visitor_id, @visitors, :id, :name, {}, {class: 'selectpicker visitor'}
           %br
           %div.visitor-scorers
     .col-md-4
 
   %br
   .actions
-    = f.submit 'Zapisz', :class => 'btn btn-primary', :style => 'color: white;'
+    - if current_user.is_admin
+      = f.submit 'Zapisz', :class => 'btn btn-primary', :style => 'color: white;', :name => 'commit'
+    = f.submit 'Przekaż do weryfikacji', :class => 'btn btn-success', :style => 'color: white;', :name => 'commit'

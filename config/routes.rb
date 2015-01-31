@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   get 'matches/team_matches'
   post 'matches/invitation', to: 'matches#create_invitation'
   delete 'matches/invitation', to: 'matches#destroy_invitation'
+  post 'matches/set_dependencies', to: 'matches#set_dependencies'
   resources :matches
 
   get 'invitations', to: 'invitations#index'

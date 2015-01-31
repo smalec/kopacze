@@ -23,7 +23,7 @@
             %td{style: 'line-height: 12px;'}= i + 1
             %td{style: 'line-height: 12px;'}= link_to team.name, team_path(team)
             %td{style: 'line-height: 12px;'}
-              %center= team.home_matches.count + team.visitor_matches.count
+              %center= team.home_matches.select{|match| match.confirmed}.count + team.visitor_matches.select{|match| match.confirmed}.count
             %td{style: 'width: 22px; text-align: right; line-height: 12px;'}
               %b= team.points
   - invs = current_user.team.send_match_invitations.where(:accepted => true)

@@ -24,7 +24,7 @@ class LeaguesController < ApplicationController
   end
 
   def matches
-    @matches = @league.matches.sort_by{|match| match.date}.reverse
+    @matches = @league.matches.select{|match| match.confirmed}.sort_by{|match| match.date}.reverse
   end
 
   def new

@@ -1,7 +1,7 @@
 class MatchesController < ApplicationController
   before_action :set_match, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!
-  before_filter :valid_is_admin, except: [:show, :new, :team_matches, :create_invitation, :destroy_invitation]
+  before_filter :valid_is_admin, only: [:index, :edit, :update]
 
   respond_to :html
 
@@ -17,11 +17,15 @@ class MatchesController < ApplicationController
 
   def team_matches
     @played = current_user.team.home_matches + current_user.team.visitor_matches
+    @played.select!{|played| played.confirmed}
     @played.sort!{|match| match.date}.reverse
 
     @upcoming = MatchInvitation.where(:sender_id => current_user.team.id, :accepted => true)
     @upcoming += MatchInvitation.where(:receiver_id => current_user.team.id, :accepted => true)
     @upcoming.sort!{|invitation| invitation.date}
+
+    @reports_received = Match.where(:visitor => current_user.team, :confirmed => false)
+    @reports_sent = Match.where(:home => current_user.team, :confirmed => false)
 
     @received_unread = current_user.team.received_match_invitations.select{|inv| inv.read == false}
     @received = current_user.team.received_match_invitations.select{|inv| inv.read}
@@ -70,7 +74,7 @@ class MatchesController < ApplicationController
     else
       @homes = Team.where(:id => current_user.team.id)
       @visitors = Team.where(:league_id => current_user.team.league.id)
-      @visitors.delete(@homes[0])
+      @visitors -= [@homes[0]]
     end
     respond_with(@match)
   end
@@ -81,7 +85,15 @@ class MatchesController < ApplicationController
 
   def create
     @match = Match.new(match_params)
-    set_dependencies
+    @match.league_id = @match.home.league.id
+    set_match_scorers
+
+    if params[:commit] == 'Zapisz'
+      @match.confirmed = true
+      set_dependencies
+    else
+      @match.confirmed = false
+    end
 
     @match.save
     respond_with(@match)
@@ -92,6 +104,8 @@ class MatchesController < ApplicationController
     @match.destroy
 
     @match = Match.new(match_params)
+    @match.league_id = @match.home.league.id
+    set_match_scorers
     set_dependencies
 
     @match.save
@@ -99,10 +113,53 @@ class MatchesController < ApplicationController
   end
 
   def destroy
-    delete_dependencies
+    if params[:dependencies] != 'save'
+      delete_dependencies
+    end
 
     @match.destroy
-    respond_with(@match)
+    if params[:dependencies] == 'save'
+      redirect_to matches_team_matches_path
+    else
+      respond_with(@match)
+    end
+  end
+
+  def set_dependencies
+    if params[:id]
+      @match = Match.find(params[:id])
+      @match.confirmed = true
+      @match.save
+    end
+    @match.home.scored += @match.home_score
+    @match.home.lost += @match.visitor_score
+    @match.visitor.scored += @match.visitor_score
+    @match.visitor.lost += @match.home_score
+    if @match.home_score > @match.visitor_score
+      @match.home.points += 3
+    elsif @match.home_score == @match.visitor_score
+      @match.home.points += 1
+      @match.visitor.points += 1
+    else
+      @match.visitor.points += 3
+    end
+    @match.home.save
+    @match.visitor.save
+
+    @match.home_scorers.each do |home_scorer|
+      scorer = User.find(home_scorer)
+      scorer.goals += 1
+      scorer.save
+    end
+    @match.visitor_scorers.each do |visitor_scorer|
+      scorer = User.find(visitor_scorer)
+      scorer.goals += 1
+      scorer.save
+    end
+
+    if params[:id]
+      redirect_to matches_team_matches_path
+    end
   end
 
   private
@@ -111,7 +168,7 @@ class MatchesController < ApplicationController
   end
 
   def match_params
-    params.require(:match).permit(:home_id, :visitor_id, :league_id, :visitor_score, :home_score, :date)
+    params.require(:match).permit(:home_id, :visitor_id, :league_id, :visitor_score, :home_score, :date, :confirmed)
     end
 
   def invitation_params
@@ -152,34 +209,18 @@ class MatchesController < ApplicationController
     end
   end
 
-  def set_dependencies
-    @match.league_id = @match.home.league.id
-    @match.home.scored += @match.home_score
-    @match.home.lost += @match.visitor_score
-    @match.visitor.scored += @match.visitor_score
-    @match.visitor.lost += @match.home_score
-    if @match.home_score > @match.visitor_score
-      @match.home.points += 3
-    elsif @match.home_score == @match.visitor_score
-      @match.home.points += 1
-      @match.visitor.points += 1
-    else
-      @match.visitor.points += 3
+  def set_match_scorers
+    if params[:home_scorers] != nil
+      params[:home_scorers].each do |home_scorer|
+        scorer = User.find(home_scorer[1])
+        @match.home_scorers += [scorer.id]
+      end
     end
-    @match.home.save
-    @match.visitor.save
-
-    params[:home_scorers].each do |home_scorer|
-      scorer = User.find(home_scorer[1])
-      @match.home_scorers += [scorer.id]
-      scorer.goals += 1
-      scorer.save
-    end
-    params[:visitor_scorers].each do |visitor_scorer|
-      scorer = User.find(visitor_scorer[1])
-      @match.visitor_scorers += [scorer.id]
-      scorer.goals += 1
-      scorer.save
+    if params[:visitor_scorers] != nil
+      params[:visitor_scorers].each do |visitor_scorer|
+        scorer = User.find(visitor_scorer[1])
+        @match.visitor_scorers += [scorer.id]
+      end
     end
   end
 end
