@@ -13,7 +13,7 @@
           - if i < 2
             - style = 'background-color: #dff0d8;'
           - elsif i > 7
-            - if @league.division > 0
+            - if current_user.team.league.division > 0
               - style = 'background-color: #f2dede;'
             - elsif i > 9
               - style = 'background-color: #f2dede;'
