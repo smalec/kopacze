@@ -27,8 +27,8 @@ class MatchesController < ApplicationController
     @reports_received = Match.where(:visitor => current_user.team, :confirmed => false)
     @reports_sent = Match.where(:home => current_user.team, :confirmed => false)
 
-    @received_unread = current_user.team.received_match_invitations.select{|inv| inv.read == false}
-    @received = current_user.team.received_match_invitations.select{|inv| inv.read}
+    @received_unread = current_user.team.received_match_invitations.select{|inv| inv.read == false and inv.accepted == false}
+    @received = current_user.team.received_match_invitations.select{|inv| inv.read and inv.accepted == false}
 
     @sent = current_user.team.send_match_invitations
 
