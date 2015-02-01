@@ -92,7 +92,7 @@ class TeamsController < ApplicationController
           lowest_div = lowest_div[:division]
           lowest_group = town.leagues.select{|league| league.division == lowest_div}.count
           lowest_league = League.where(:town => @team.town, :division => lowest_div, :group => lowest_group)
-          if lowest_league.count < 12
+          if lowest_league.teams.count < 12
             @team.league = lowest_league[0]
             @team.save
           else
