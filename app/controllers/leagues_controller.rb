@@ -35,6 +35,8 @@ class LeaguesController < ApplicationController
 
   def edit
     @towns = Town.all
+    @lowest_div = @league.town.leagues.sort_by{:division}[-1][:division]
+    @lowest_group = @league.town.leagues.select{|league| league.division == @lowest_div}.count
   end
 
   def create

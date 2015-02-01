@@ -1,4 +1,28 @@
 .page-header
   %h1= 'Edytuj ligę'
 
-= render 'form'
+= form_for @league do |f|
+  - if @league.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@league.errors.count, "error")} prohibited this league from being saved:"
+      %ul
+        - @league.errors.full_messages.each do |msg|
+          %li= msg
+
+
+  .form-group
+    = f.label 'Miasto'
+    .controls
+      = f.collection_select :town_id, @towns, :id, :name, {}, {class: 'selectpicker'}
+  .form-group
+    = f.label 'Poziom'
+    .controls
+      = f.number_field :division, min: 0, max: @lowest_div + 1, class: 'form-control', style: 'width: 60px;'
+  .form-group
+    = f.label 'Grupa'
+    .controls
+      = f.number_field :group, min: 1, max: @lowest_group + 1, class: 'form-control', style: 'width: 60px;'
+
+  .actions
+    = f.submit 'Utwórz', :class => 'btn btn-primary', :style => 'color: white;'
+    = link_to 'Powrót do lig', leagues_path, :class => 'btn btn-default'

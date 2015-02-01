@@ -1,4 +1,20 @@
 .page-header
   %h1= 'Nowa liga'
 
-= render 'form'
+= form_for @league do |f|
+  - if @league.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@league.errors.count, "error")} prohibited this league from being saved:"
+      %ul
+        - @league.errors.full_messages.each do |msg|
+          %li= msg
+
+
+  .form-group
+    = f.label 'Miasto'
+    .controls
+      = f.collection_select :town_id, @towns, :id, :name, {}, {class: 'selectpicker'}
+
+  .actions
+    = f.submit 'Utwórz', :class => 'btn btn-primary', :style => 'color: white;'
+    = link_to 'Powrót do lig', leagues_path, :class => 'btn btn-default'

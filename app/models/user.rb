@@ -10,10 +10,10 @@ class User < ActiveRecord::Base
 
   belongs_to :town
 
-  has_one :own_team, class_name: 'Team', foreign_key: 'captain_id'
+  has_one :own_team, class_name: 'Team', foreign_key: 'captain_id', dependent: :destroy
   belongs_to :team, class_name: 'Team'
 
-  has_many :invitations
+  has_many :invitations, dependent: :destroy
 
   validates :name, presence: true
   validates :surname, presence: true

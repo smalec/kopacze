@@ -1,7 +1,7 @@
 class League < ActiveRecord::Base
   belongs_to  :town
-  has_many :teams
-  has_many :matches
+  has_many :teams, dependent: :destroy
+  has_many :matches, dependent: :destroy
 
   def description
     if division == 0
