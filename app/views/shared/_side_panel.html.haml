@@ -29,7 +29,7 @@
   - invs = current_user.team.send_match_invitations.where(:accepted => true)
   - invs += current_user.team.received_match_invitations.where(:accepted => true)
   - if invs.count > 0
-    - upcoming_match = invs.last
+    - upcoming_match = invs.sort_by{:date}[-1]
     .panel.panel-info
       .panel-heading
         %b Najbliższy mecz
