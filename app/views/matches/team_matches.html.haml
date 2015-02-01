@@ -10,7 +10,11 @@
       %li.active.set-played= link_to 'Rozegrane', '#'
       %li.set-upcoming= link_to 'Nadchodzące', '#'
       - if current_user.team.captain == current_user
-        %li.set-reports= link_to 'Oczekujące raporty', '#'
+        %li.set-reports
+          %a{href: '#'}
+            ='Oczekujące raporty'
+            - if @reports_received.count > 0
+              %span.badge= @reports_received.count
         %li.set-received
           %a{href: '#'}
             ='Otrzymane zaproszenia'
